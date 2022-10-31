@@ -5,11 +5,11 @@ import uuid
 
 class Exams(models.Model):
     id = models.UUIDField(default=uuid.uuid4, editable=False,
-                          null=False, primary_key=True, unique=True)
+                          primary_key=True)
     name = models.CharField()
-    subjects = models.ForeignKey(
+    subject = models.ForeignKey(
         "subjects.Subject", related_name="exams", on_delete=models.CASCADE)
-    students = models.ForeignKey(
+    student = models.ForeignKey(
         "students.Student", related_name="exams", on_delete=models.CASCADE)
-    report_cards = models.ForeignKey(
+    report_card = models.ForeignKey(
         "report_cards.ReportCard", related_name="exams", on_delete=models.CASCADE)
