@@ -4,8 +4,7 @@ import uuid
 
 
 class Exams(models.Model):
-    id = models.UUIDField(default=uuid.uuid4, editable=False,
-                          primary_key=True)
+    id = models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True)
     name = models.CharField()
     subject = models.ForeignKey(
         "subjects.Subject", related_name="exams", on_delete=models.CASCADE)
