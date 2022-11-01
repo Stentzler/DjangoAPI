@@ -69,6 +69,7 @@ class TeacherManager(BaseUserManager):
         results = super().get_queryset(*args, **kwargs)
         return results.filter(role=User.Role.TEACHER)
 
+
 class Teacher(User):
 
     base_role = User.Role.TEACHER
@@ -82,6 +83,7 @@ class Teacher(User):
 class TeacherProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     cpf = models.CharField(max_length=30)
+
 
 @receiver(post_save, sender=Teacher)
 def create_user_profile(sender, instance, created, **kwargs):
