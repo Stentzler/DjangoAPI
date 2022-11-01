@@ -1,3 +1,4 @@
+from calendar import c
 import uuid
 from django.db import models
 from django.contrib.auth.models import AbstractUser, BaseUserManager
@@ -80,8 +81,7 @@ class Teacher(User):
 
 class TeacherProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    teacher_id = models.IntegerField(null=True, blank=True)
-
+    cpf = models.CharField(max_length=30)
 
 @receiver(post_save, sender=Teacher)
 def create_user_profile(sender, instance, created, **kwargs):
