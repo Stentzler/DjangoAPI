@@ -9,7 +9,7 @@ class Exams(models.Model):
         "subjects.Subject", related_name="exams", on_delete=models.CASCADE
     )
     student = models.ForeignKey(
-        "students.Student", related_name="exams", on_delete=models.CASCADE
+        "custom_users.Student", related_name="exams", on_delete=models.CASCADE
     )
     report_card = models.ForeignKey(
         "report_cards.ReportCard", related_name="exams", on_delete=models.CASCADE

@@ -14,7 +14,7 @@ class ReportCard(models.Model):
     average = models.DecimalField(default=0, max_digits=5, decimal_places=2)
     attendance = models.DecimalField(default=100.00, max_digits=5, decimal_places=2)
 
-    student = models.ForeignKey("students.Student", related_name="report_card" ,on_delete=models.CASCADE)
+    student = models.ForeignKey("custom_users.Student", related_name="report_card" ,on_delete=models.CASCADE)
 
 
     

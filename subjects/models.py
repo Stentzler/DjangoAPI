@@ -3,8 +3,8 @@ import uuid
 
 class Subject(models.Model):
     id = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
-    name = models.CharField(max_length=50, null=False, blank=False, unique=True)
+    name = models.CharField(max_length=50, unique=True)
 
     teacher = models.ForeignKey(
-        "custom_users.TeacherProfile", on_delete=models.CASCADE, related_name="Subjects"
+        "custom_users.Teacher", on_delete=models.CASCADE, related_name="Subjects"
     )

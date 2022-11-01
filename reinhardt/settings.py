@@ -47,7 +47,6 @@ DJANGO_APPS = [
 
 MY_APPS = [
     "addresses",
-    "classes",
     "exams",
     "grades",
     "payments",
