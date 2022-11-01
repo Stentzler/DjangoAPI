@@ -4,6 +4,8 @@ from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
+from addresses.models import Address
+
 # Caso seja criado um superUser pelo terminal será um Administrador
 class User(AbstractUser):
     class Role(models.TextChoices):
@@ -15,6 +17,14 @@ class User(AbstractUser):
 
     id = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
     role = models.CharField(max_length=50, choices=Role.choices)
+    name = models.CharField(max_length=70)
+    age = models.IntegerField()
+    contacts = models.CharField(max_length=70)
+    email = models.EmailField()
+    password = models.CharField(max_length=70)
+    rg = models.CharField(max_length=20)
+
+    address = models.OneToOneField(Address, on_delete=models.CASCADE)
 
     def save(self, *args, **kwargs):
         self.role = self.base_role
