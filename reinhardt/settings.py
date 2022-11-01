@@ -46,31 +46,23 @@ DJANGO_APPS = [
 ]
 
 MY_APPS = [
-    'addresses'
-    'classes'
-    'exams'
-    'grades'
-    'payments'
-    'report_cards'
-    'students'
-    'subjects'
-    'teachers'
+    "addresses",
+    "classes",
+    "exams",
+    "grades",
+    "payments",
+    "report_cards",
+    "subjects",
+    "custom_users",
 ]
 
 THIRD_PARTY_APPS = [
-    'rest_framework',
-    'rest_framework.authtoken',
-    'drf_spectacular'
+    "rest_framework",
+    "rest_framework.authtoken",
+    "drf_spectacular",
 ]
 
-INSTALLED_APPS = [
-    "django.contrib.admin",
-    "django.contrib.auth",
-    "django.contrib.contenttypes",
-    "django.contrib.sessions",
-    "django.contrib.messages",
-    "django.contrib.staticfiles",
-]
+INSTALLED_APPS = THIRD_PARTY_APPS + MY_APPS + DJANGO_APPS
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -106,36 +98,43 @@ WSGI_APPLICATION = "reinhardt.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-if os.environ.get("GITHUB_WORKFLOW"):
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.postgresql",
-            "NAME": "github-actions",
-            "USER": "postgres",
-            "PASSWORD": "postgres",
-            "HOST": "localhost",
-            "PORT": 5432,
-        }
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
     }
-    SECRET_KEY = "mkmnpmnsghnjsohshinj"
-elif os.environ.get("TEST"):
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.sqlite3",
-            "NAME": BASE_DIR / "db.sqlite3",
-        }
-    }
-else:
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.postgresql",
-            "NAME": os.getenv("POSTGRES_DB"),
-            "USER": os.getenv("POSTGRES_USER"),
-            "PASSWORD": os.getenv("POSTGRES_PASSWORD"),
-            "HOST": "127.0.0.1",
-            "PORT": 5432,
-        }
-    }
+}
+
+# if os.environ.get("GITHUB_WORKFLOW"):
+#     DATABASES = {
+#         "default": {
+#             "ENGINE": "django.db.backends.postgresql",
+#             "NAME": "github-actions",
+#             "USER": "postgres",
+#             "PASSWORD": "postgres",
+#             "HOST": "localhost",
+#             "PORT": 5432,
+#         }
+#     }
+#     SECRET_KEY = "mkmnpmnsghnjsohshinj"
+# elif os.environ.get("TEST"):
+#     DATABASES = {
+#         "default": {
+#             "ENGINE": "django.db.backends.sqlite3",
+#             "NAME": BASE_DIR / "db.sqlite3",
+#         }
+#     }
+# else:
+#     DATABASES = {
+#         "default": {
+#             "ENGINE": "django.db.backends.postgresql",
+#             "NAME": os.getenv("POSTGRES_DB"),
+#             "USER": os.getenv("POSTGRES_USER"),
+#             "PASSWORD": os.getenv("POSTGRES_PASSWORD"),
+#             "HOST": "127.0.0.1",
+#             "PORT": 5432,
+#         }
+#     }
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
 
@@ -186,3 +185,5 @@ if DATABASE_URL:
     DATABASES["default"].update(db_from_env)
 
     DEBUG = True
+
+AUTH_USER_MODEL = "custom_users.User"
