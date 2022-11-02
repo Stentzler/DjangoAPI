@@ -1,10 +1,9 @@
-from calendar import c
 import uuid
 from django.db import models
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-
+from grades.models import Grade
 from addresses.models import Address
 
 # Caso seja criado um superUser pelo terminal será um Administrador
@@ -46,9 +45,7 @@ class Student(User):
     base_role = User.Role.STUDENT
 
     student = StudentManager()
-
-    class Meta:
-        proxy = True
+    grade = models.ForeignKey(Grade, on_delete=models.CASCADE)
 
 
 @receiver(post_save, sender=Student)
@@ -71,18 +68,13 @@ class TeacherManager(BaseUserManager):
 
 
 class Teacher(User):
-
     base_role = User.Role.TEACHER
-
+    cpf = models.CharField(max_length=30)
     teacher = TeacherManager()
-
-    class Meta:
-        proxy = True
 
 
 class TeacherProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    cpf = models.CharField(max_length=30)
 
 
 @receiver(post_save, sender=Teacher)
