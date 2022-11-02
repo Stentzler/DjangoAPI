@@ -12,6 +12,7 @@ class ReportCardSerializer(serializers.ModelSerializer):
         fields = [
             'id',
             'student'
+            'subject'
             'N1',
             'N2',
             'N3',
