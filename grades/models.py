@@ -19,3 +19,6 @@ class Grade(models.Model):
         "subjects.Subject",
         related_name="grades",
     )
+
+    def __str__(self):
+        return f"Turma: {self.class_name}, Período: {self.period.capitalize()}"
