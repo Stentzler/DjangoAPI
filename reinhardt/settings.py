@@ -183,6 +183,6 @@ if DATABASE_URL:
     )
     DATABASES["default"].update(db_from_env)
 
-    DEBUG = True
+    DEBUG = False
 
 AUTH_USER_MODEL = "custom_users.User"
