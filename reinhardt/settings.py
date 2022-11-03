@@ -30,7 +30,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['reinhardt-mgmt.herokuapp.com', 'localhost']
+ALLOWED_HOSTS = ['reinhardt-mgmt.herokuapp.com/', 'localhost']
 # ^^^^^^ NEEDS TO BE UPDATED
 
 
@@ -104,7 +104,7 @@ WSGI_APPLICATION = "reinhardt.wsgi.application"
 #     }
 # }
 
-if os.environ.get("GITHUB_WORKFLOW"):
+if os.getenv("GITHUB_WORKFLOW"):
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.postgresql",
@@ -116,7 +116,7 @@ if os.environ.get("GITHUB_WORKFLOW"):
         }
     }
     SECRET_KEY = "mkmnpmnsghnjsohshinj"
-elif os.environ.get("TEST"):
+elif os.getenv("TEST"):
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.sqlite3",
