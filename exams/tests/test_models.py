@@ -14,8 +14,8 @@ class ExamsModelTest(TestCase):
         
     def test_should_not_be_able_to_have_a_negative_score(self):
         """checks that a negative score cannot be created"""
-        with self.assertRaisesMessage(IntegrityError,"CHECK constraint failed: score"): 
-           exam1=baker.make("exams.Exams",score= -20)
+        with self.assertRaises(IntegrityError): 
+           exam1=baker.make("exams.Exams",score=-20)
         
         
     def test_many_to_one_relation_with_students(self):
