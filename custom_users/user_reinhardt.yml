@@ -1,4 +1,4 @@
-name: Student_CI-CD
+name: Reinhardt_CI-CD
 
 on:
   push:
@@ -32,6 +32,6 @@ steps:
   - name: Run Tests
     run: python manage.py test -v 2
   - name: Run Coverage
-    run: coverage run python manage.py test
+    run: coverage run ./manage.py test
   - name: Run Coverage Report
     run: coverage report
