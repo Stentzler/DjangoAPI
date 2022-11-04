@@ -13,10 +13,10 @@ class ReportCardSerializer(serializers.ModelSerializer):
             'id',
             'student'
             'subject'
-            'N1',
-            'N2',
-            'N3',
-            'N4',
+            'result_q1',
+            'result_q2',
+            'result_q3',
+            'result_q4',
             'average',
             'attendance',
             'is_approved',
