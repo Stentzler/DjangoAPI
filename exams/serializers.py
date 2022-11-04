@@ -2,8 +2,8 @@ from curses import meta
 from rest_framework import serializers
 from exams.models import Exams
 from report_cards.models import ReportCard
-from students.serializer import StudentSerializer
-from subjects.serializer import SubjectsSerializer
+from custom_users.serializers import StudentSerializer
+from subjects.serializers import SubjectsSerializer
 
 
 class ExamsSerialzier(serializers.ModelSerializer):
