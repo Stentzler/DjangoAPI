@@ -4,9 +4,7 @@ from .models import Grade
 from subjects.serializers import SubjectsSerializer
 from subjects.models import Subject
 from django.shortcuts import get_object_or_404
-# import ipdb
-
-
+# import ipdb 
 class GradeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Grade
