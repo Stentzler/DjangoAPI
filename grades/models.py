@@ -1,5 +1,6 @@
 from django.db import models
 import uuid
+from subjects.models import Subject
 
 
 class Grade(models.Model):
