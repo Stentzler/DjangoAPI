@@ -12,13 +12,14 @@ class ReportCardModelTest(TestCase):
         self.student = baker.make("custom_users.Student")
     
     def test_can_create_a_proper_report_card(self):
-        report_card = baker.make_recipe("report_cards.test.report_card_custom", student=self.student)
+        report_card = baker.make_recipe("report_cards.tests.report_card_custom", student=self.student)
 
         self.assertEqual(report_card.result_q1, 90)
         self.assertEqual(report_card.result_q2, 40)
         self.assertEqual(report_card.result_q3, 50)
         self.assertEqual(report_card.result_q4, 70)
         
+        # Boolean fields should be set to False when not informed
         self.assertEqual(report_card.is_approved, False)
         self.assertEqual(report_card.is_active, True)
     

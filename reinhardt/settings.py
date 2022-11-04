@@ -30,7 +30,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['reinhardt-mgmt.herokuapp.com', 'localhost']
 # ^^^^^^ NEEDS TO BE UPDATED
 
 
@@ -104,7 +104,7 @@ DATABASES = {
     }
 }
 
-# if os.environ.get("GITHUB_WORKFLOW"):
+# if os.getenv("GITHUB_WORKFLOW"):
 #     DATABASES = {
 #         "default": {
 #             "ENGINE": "django.db.backends.postgresql",
@@ -116,7 +116,7 @@ DATABASES = {
 #         }
 #     }
 #     SECRET_KEY = "mkmnpmnsghnjsohshinj"
-# elif os.environ.get("TEST"):
+# elif os.getenv("TEST"):
 #     DATABASES = {
 #         "default": {
 #             "ENGINE": "django.db.backends.sqlite3",
@@ -183,6 +183,6 @@ if DATABASE_URL:
     )
     DATABASES["default"].update(db_from_env)
 
-    DEBUG = True
+    DEBUG = False
 
 AUTH_USER_MODEL = "custom_users.User"

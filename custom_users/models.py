@@ -19,7 +19,7 @@ class User(AbstractUser):
 
     id = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
     role = models.CharField(max_length=50, choices=Role.choices)
-    age = models.IntegerField()
+    age = models.PositiveIntegerField()
     contacts = models.CharField(max_length=70)
     email = models.EmailField()
     password = models.CharField(max_length=70)
