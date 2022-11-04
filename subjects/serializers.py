@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from custom_users.serializers import TeacherSerializer
 
 from subjects.models import Subject
 
@@ -13,4 +14,4 @@ class SubjectsSerializer(serializers.ModelSerializer):
             'name',
             'teacher',
         ]
-        # teacher = (read_only=True)
+        teacher = TeacherSerializer(read_only=True)
