@@ -11,7 +11,8 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ("custom_users", "0001_initial"),
+        ("report_cards", "0001_initial"),
+        ("custom_users", "0002_initial"),
         ("subjects", "0001_initial"),
     ]
 
@@ -36,6 +37,14 @@ class Migration(migrations.Migration):
                             django.core.validators.MinValueValidator(0),
                             django.core.validators.MaxValueValidator(100),
                         ],
+                    ),
+                ),
+                (
+                    "report_card",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="exams",
+                        to="report_cards.reportcard",
                     ),
                 ),
                 (

@@ -12,7 +12,8 @@ class Grade(models.Model):
     period = models.CharField(
         max_length=20, choices=Period.choices, default=Period.MANHA
     )
-    class_name = models.CharField(max_length=30, null=False, blank=False)
+    class_name = models.CharField(
+        max_length=30, null=False, blank=False, unique=True)
     grade = models.CharField(max_length=30, null=False, blank=False)
 
     subjects = models.ManyToManyField(

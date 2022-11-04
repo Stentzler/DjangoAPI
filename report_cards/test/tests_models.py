@@ -19,7 +19,6 @@ class ReportCardModelTest(TestCase):
         self.assertEqual(report_card.result_q3, 50)
         self.assertEqual(report_card.result_q4, 70)
         
-        # Boolean fields should be set to False when not informed
         self.assertEqual(report_card.is_approved, False)
         self.assertEqual(report_card.is_active, True)
     

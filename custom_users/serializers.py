@@ -158,3 +158,15 @@ class UpdateTeacherSerializer(serializers.ModelSerializer):
         ]
 
         read_only_fields = ["id"]
+
+
+class TeacherName(serializers.ModelSerializer):
+    class Meta:
+        model = Teacher
+        fields = [
+            "first_name",
+            "last_name",
+            "id",
+        ]
+
+        read_only_fields = ["id"]

@@ -7,6 +7,8 @@ from grades.models import Grade
 from addresses.models import Address
 
 # Caso seja criado um superUser pelo terminal será um Administrador
+
+
 class User(AbstractUser):
     class Role(models.TextChoices):
         ADMIN = "ADMIN", "Admin"
@@ -70,6 +72,9 @@ class Teacher(User):
     base_role = User.Role.TEACHER
     cpf = models.CharField(max_length=30)
     teacher = TeacherManager()
+
+    def __str__(self):
+        return f"Prof: {self.first_name}"
 
 
 class TeacherProfile(models.Model):

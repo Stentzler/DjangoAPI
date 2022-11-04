@@ -13,4 +13,6 @@ class Exams(models.Model):
     student = models.ForeignKey(
         "custom_users.Student", related_name="exams", on_delete=models.CASCADE
     )
-    
+     report_card = models.ForeignKey(
+         "report_cards.ReportCard", related_name="exams", on_delete=models.CASCADE
+    )
