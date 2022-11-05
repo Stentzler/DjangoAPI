@@ -1,3 +1,42 @@
-from django.shortcuts import render
+from rest_framework import generics
+# from rest_framework.authentication import TokenAuthentication
+# from rest_framework.permissions import IsAdminUser
+# from .permissions import IsAdminOrOwner
+from exams.serializers import ExamsSerializer
+from exams.models import Exams
 
-# Create your views here.
+
+
+class ExamsCreateView(generics.CreateAPIView):
+    # authentication_classes = [TokenAuthentication]
+    # permission_classes = [IsAdminOrOwner]
+
+    serializer_class = ExamsSerializer
+
+
+class ExamsListView(generics.ListAPIView):
+    # authentication_classes = [TokenAuthentication]
+    # permission_classes = [IsAdminUser]
+
+    queryset = Exams.objects.all()
+    serializer_class = ExamsSerializer   
+
+
+class UpdateExamsView(generics.UpdateAPIView):
+    # authentication_classes = [TokenAuthentication]
+    # permission_classes = [IsAdminOrOwner]
+
+    queryset = Exams.objects.all()
+    serializer_class = ExamsSerializer
+    lookup_url_kwarg = "id"    
+
+
+class DeleteRetriveExamsView(generics.RetrieveDestroyAPIView):
+    # authentication_classes = [TokenAuthentication]
+    # permission_classes = [IsAdminOrOwner]
+    
+    queryset = Exams.objects.all()
+    serializer_class = ExamsSerializer
+    lookup_url_kwarg = "id"    
+
+

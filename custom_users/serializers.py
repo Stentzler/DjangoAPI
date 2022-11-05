@@ -4,7 +4,10 @@ from .models import Teacher
 from addresses.serializers import AddressesSerializer
 from addresses.models import Address
 from grades.models import Grade
+from subjects.models import Subject
+from report_cards.models import ReportCard
 from django.shortcuts import get_object_or_404
+import ipdb
 
 
 class StudentSerializer(serializers.ModelSerializer):
@@ -33,9 +36,7 @@ class StudentSerializer(serializers.ModelSerializer):
             "id",
         ]
 
-        read_only_fields = [
-            "id",
-        ]
+        read_only_fields = ["id"]
 
         extra_kwargs = {"password": {"write_only": True}}
 
@@ -47,9 +48,16 @@ class StudentSerializer(serializers.ModelSerializer):
 
         new_address = Address.objects.create(**address)
 
-        return Student.objects.create_user(
+        new_student = Student.objects.create_user(
             **validated_data, address=new_address, grade=grade
         )
+
+        list_subjects = list(grade.subjects.all())
+
+        for subject in list_subjects:
+            ReportCard.objects.create(student=new_student, subject=subject)
+
+        return new_student
 
 
 class TeacherSerializer(serializers.ModelSerializer):
@@ -154,6 +162,18 @@ class UpdateTeacherSerializer(serializers.ModelSerializer):
             "age",
             "email",
             "contacts",
+            "id",
+        ]
+
+        read_only_fields = ["id"]
+
+
+class TeacherName(serializers.ModelSerializer):
+    class Meta:
+        model = Teacher
+        fields = [
+            "first_name",
+            "last_name",
             "id",
         ]
 

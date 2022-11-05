@@ -6,5 +6,5 @@ report_card_custom = Recipe(
     result_q1 = 90,
     result_q2 = 40,
     result_q3 = 50,
-    result_q4= 70
+    result_q4 = 70,
 )
