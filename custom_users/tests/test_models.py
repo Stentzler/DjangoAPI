@@ -7,44 +7,6 @@ from custom_users.tests.baker_recipes import student_custom, teacher_custom
 from django.db import IntegrityError
 
 class UsersModelTest(TestCase):
-    @classmethod
-    def setUpTestData(cls):
-        ...
-        # cls.address_data = {
-        #     "zipcode": "123123",
-        #     "district": "Centro",
-        #     "state": "RS",
-        #     "street": "Rua",
-        #     "number": "123A",
-        # }
-
-        # cls.grade_data = {
-        #     "class_name": "5a_A",
-        #     "grade": "5a Série",
-        # }
-
-        # cls.student_data = {
-        #     "username": "student",
-        #     "rg": "999-999-999",
-        #     "first_name": "Stu",
-        #     "last_name": "Dent",
-        #     "age": 22,
-        #     "contacts": "Dona Angela",
-        #     "email": "student@mail.com",
-        #     "password": "1234",
-        # }
-
-        # cls.teacher_data = {
-        #     "username": "teacher",
-        #     "rg": "999-999-999",
-        #     "first_name": "Tea",
-        #     "last_name": "Cher",
-        #     "age": 18,
-        #     "contacts": "Dona Angela",
-        #     "email": "teacher@mail.com",
-        #     "password": "1234",
-        #     "cpf": "12345678910",
-        # }
     def setUp(self):
         self.address = baker.make("addresses.Address")
         self.grade = baker.make("grades.Grade")
@@ -52,9 +14,6 @@ class UsersModelTest(TestCase):
 
     def test_should_be_able_to_register_a_student(self):
         """trying to create an student providing correct data"""
-        # student = Student.objects.create_user(
-        #     **self.student_data, address=self.address, grade=self.grade
-        # )
         student = baker.make_recipe("custom_users.tests.student_custom", address=self.address, grade=self.grade)
         student_base_data = student_custom.__dict__
 
@@ -77,8 +36,6 @@ class UsersModelTest(TestCase):
 
     def test_should_be_able_to_register_a_teacher(self):
         """trying to create an student passing correct data"""
-
-        # teacher = Teacher.objects.create_user(**self.teacher_data, address=self.address)
         teacher = baker.make_recipe("custom_users.tests.teacher_custom", address=self.address)
         teacher_base_data = teacher_custom.__dict__
 
