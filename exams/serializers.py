@@ -10,34 +10,30 @@ from subjects.models import Subject
 
 class ExamsSerializer(serializers.ModelSerializer):
 
-    grades=serializers.UUIDField(write_only=True)
+    grades = serializers.UUIDField(write_only=True)
 
-    def to_representation(self, instance):
-        return 
+    # def to_representation(self, instance):
+    #     return
     class Meta:
         model = Exams
-        fields = ["id", "score","subject","quarter","grades"]
+        fields = ["id", "score", "subject", "quarter", "grades"]
         read_only_fields = ["id"]
-        extra_kwargs ={"grades":{"required":True}}
-        
+        extra_kwargs = {"grades": {"required": True}}
+
     def create(self, validated_data):
         subject = validated_data.pop("subject")
-        grades=   validated_data.pop("grades") 
-        quarter= validated_data.pop("quarter")
-     
-        students= Student.objects.filter(grade_id=grades)
-        list_students=list(students)
-        exams_list=[]
+        grades = validated_data.pop("grades")
+        quarter = validated_data.pop("quarter")
+
+        students = Student.objects.filter(grade_id=grades)
+        list_students = list(students)
+        exams_list = []
         for student in list_students:
-          exams_created=  Exams.objects.create(student=student,quarter=quarter,subject=subject)
-        
-          exams_list.append(exams_created)
-        
-        
-        return  exams_created
-    
-            
-            
-            
-        
-        
+            exams_created = Exams.objects.create(
+                student=student, quarter=quarter, subject=subject
+            )
+
+            exams_list.append(exams_created)
+        ipdb.set_trace()
+
+        return exams_created
