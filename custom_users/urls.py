@@ -16,5 +16,6 @@ urlpatterns = [
     #
     path("students/update/<str:id>/", views.UpdateStudentView.as_view()),
     path("teachers/update/<str:id>/", views.UpdateTeacherView.as_view()),
-
+    #
+    path("students/exams/<str:student_id>/", views.GetStudentExams.as_view()),
 ]
