@@ -44,6 +44,8 @@ class GetStudentReports(APIView):
         student = get_object_or_404(Student, id=student_id)
         reports = student.report_cards
         serializer = ListReportCardSerializer(reports, many=True)
+
+        return Response(serializer.data, status.HTTP_200_OK)
         
 class GetStudentExams(APIView):
     def get(self, request: Request, student_id: str) -> Response:
