@@ -1,5 +1,4 @@
 from rest_framework import serializers
-import ipdb
 from report_cards.models import ReportCard
 from custom_users.serializers import ListStudentSerializer
 from exams.models import Exams
@@ -14,7 +13,7 @@ class ReportCardSerializer(serializers.ModelSerializer):
         model = ReportCard
         fields = [
             "id",
-            "student", 
+            "student",
             "subject",
             "result_q1",
             "result_q2",
@@ -28,7 +27,7 @@ class ReportCardSerializer(serializers.ModelSerializer):
         depth = 1
 
     def get_average(self, obj):
-        return (obj.result_1 + obj.result_2 + obj.result_3 + obj.result_4) / 4
+        return (obj.result_q1 + obj.result_q2 + obj.result_q3 + obj.result_q4) / 4
 
 
 class ListReportCardSerializer(serializers.ModelSerializer):
@@ -38,6 +37,7 @@ class ListReportCardSerializer(serializers.ModelSerializer):
     result_q2 = serializers.SerializerMethodField()
     result_q3 = serializers.SerializerMethodField()
     result_q4 = serializers.SerializerMethodField()
+    average = serializers.SerializerMethodField()
 
     class Meta:
         model = ReportCard
@@ -49,6 +49,7 @@ class ListReportCardSerializer(serializers.ModelSerializer):
     def calc_total(self, exams, stu_id, sub_id):
         total_score = 0
         total_exams = 0
+
         for exam in exams:
             if exam.student.id == stu_id and exam.subject.id == sub_id:
                 total_score += exam.score
@@ -57,7 +58,7 @@ class ListReportCardSerializer(serializers.ModelSerializer):
         if total_exams > 0:
             return round(total_score / total_exams, 2)
 
-        return "Not available"
+        return "Nenhuma nota neste quarter"
 
     #
 
@@ -94,3 +95,21 @@ class ListReportCardSerializer(serializers.ModelSerializer):
         q4_exams = Exams.objects.all().filter(quarter="q4")
 
         return self.calc_total(q4_exams, student_id, subject_id)
+
+    #
+
+    def get_average(self, obj):
+        if (
+            isinstance(self.get_result_q1(obj), str) or
+            isinstance(self.get_result_q2(obj), str) or
+            isinstance(self.get_result_q3(obj), str) or
+            isinstance(self.get_result_q4(obj), str)
+        ):
+            return "Média final ainda não disponível"
+
+        return (
+            self.get_result_q1(obj)
+            + self.get_result_q2(obj)
+            + self.get_result_q3(obj)
+            + self.get_result_q4(obj)
+        ) / 4
