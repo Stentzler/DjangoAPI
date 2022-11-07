@@ -9,36 +9,21 @@ from subjects.models import Subject
 
 class ExamsSerializer(serializers.ModelSerializer):
 
-    grades=serializers.UUIDField(write_only=True)
+    grades = serializers.UUIDField(write_only=True)
 
     class Meta:
         model = Exams
-        fields = ["id", "score","subject","quarter","grades"]
+        fields = ["id", "score", "subject", "quarter", "grades"]
         read_only_fields = ["id"]
-        extra_kwargs ={"grades":{"required":True}}
-        
+        extra_kwargs = {"grades": {"required": True}}
+
     def create(self, validated_data):
         subject = validated_data.pop("subject")
-        grades=   validated_data.pop("grades") 
-        quarter= validated_data.pop("quarter")
-        students= Student.objects.filter(grade_id=grades).all()
-        exams_list=[]
+        grades = validated_data.pop("grades") 
+        quarter = validated_data.pop("quarter")
+        students = Student.objects.filter(grade_id=grades).all()
         
         for student in students:
-            
-          exams_created=  Exams.objects.create(student=student,quarter=quarter,subject=subject)
+            exams_created = Exams.objects.create(student=student,quarter=quarter,subject=subject)
 
-          exams_list.append(exams_created)
-        
         return exams_created
-
-
-
-     
-    
-    
-            
-            
-            
-        
-        
