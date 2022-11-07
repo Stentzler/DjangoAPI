@@ -47,7 +47,7 @@ class ListReportCardSerializer(serializers.ModelSerializer):
     #
 
     def calc_total(self, exams, stu_id, sub_id):
-        total_score = 2
+        total_score = 0
         total_exams = 0
 
         for exam in exams:
