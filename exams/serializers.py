@@ -34,6 +34,5 @@ class ExamsSerializer(serializers.ModelSerializer):
             )
 
             exams_list.append(exams_created)
-        ipdb.set_trace()
 
         return exams_created
