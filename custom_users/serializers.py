@@ -115,6 +115,23 @@ class ListStudentSerializer(serializers.ModelSerializer):
         ]
 
 
+class ReportStudentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Student
+        fields = [
+            "address",
+            "grade",
+            "username",
+            "first_name",
+            "last_name",
+            "rg",
+            "age",
+            "email",
+            "contacts",
+            "id",
+        ]
+
+
 class ListTeacherSerializer(serializers.ModelSerializer):
     class Meta:
         model = Teacher
