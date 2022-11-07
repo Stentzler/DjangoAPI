@@ -5,13 +5,22 @@ from rest_framework import generics
 from exams.serializers import ExamsSerializer
 from exams.models import Exams
 
-
+from rest_framework.views import APIView, Response, status
 
 class ExamsCreateView(generics.CreateAPIView):
     # authentication_classes = [TokenAuthentication]
     # permission_classes = [IsAdminOrOwner]
-
+    
     serializer_class = ExamsSerializer
+    """ output_serializer= ExamsSerializer(many=True) """
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response({"message":"Exams created sucessfuly"}, status=status.HTTP_201_CREATED, headers=headers)
+    
+        
 
 
 class ExamsListView(generics.ListAPIView):
