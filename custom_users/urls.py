@@ -18,4 +18,5 @@ urlpatterns = [
     path("teachers/update/<str:id>/", views.UpdateTeacherView.as_view()),
     #
     path("students/report_card/<str:student_id>/", views.GetStudentReports.as_view()),
+    path("students/exams/<str:student_id>/", views.GetStudentExams.as_view()),
 ]
