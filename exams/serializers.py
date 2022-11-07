@@ -12,8 +12,8 @@ class ExamsSerializer(serializers.ModelSerializer):
 
     grades=serializers.UUIDField(write_only=True)
 
-    def to_representation(self, instance):
-        return 
+    # def to_representation(self, instance):
+    #     return 
     class Meta:
         model = Exams
         fields = ["id", "score","subject","quarter","grades"]
