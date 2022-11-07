@@ -7,14 +7,10 @@ import ipdb
 from custom_users.models import Student
 from subjects.models import Subject
 
-
 class ExamsSerializer(serializers.ModelSerializer):
 
     grades = serializers.UUIDField(write_only=True)
 
-    # def to_representation(self, instance):
-    #     return
-    
     class Meta:
         model = Exams
         fields = ["id", "score", "subject", "quarter", "grades"]
@@ -23,17 +19,11 @@ class ExamsSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         subject = validated_data.pop("subject")
-        grades = validated_data.pop("grades")
+        grades = validated_data.pop("grades") 
         quarter = validated_data.pop("quarter")
-
-        students = Student.objects.filter(grade_id=grades)
-        list_students = list(students)
-        exams_list = []
-        for student in list_students:
-            exams_created = Exams.objects.create(
-                student=student, quarter=quarter, subject=subject
-            )
-
-            exams_list.append(exams_created)
+        students = Student.objects.filter(grade_id=grades).all()
+        
+        for student in students:
+            exams_created = Exams.objects.create(student=student,quarter=quarter,subject=subject)
 
         return exams_created
