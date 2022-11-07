@@ -14,6 +14,7 @@ class ExamsSerializer(serializers.ModelSerializer):
 
     # def to_representation(self, instance):
     #     return
+    
     class Meta:
         model = Exams
         fields = ["id", "score", "subject", "quarter", "grades"]
