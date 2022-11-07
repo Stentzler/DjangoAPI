@@ -13,7 +13,9 @@ class ReportCardSerializer(serializers.ModelSerializer):
         model = ReportCard
         fields = [
             "id",
-            "student" "subject" "result_q1",
+            "student", 
+            "subject",
+            "result_q1",
             "result_q2",
             "result_q3",
             "result_q4",
@@ -25,7 +27,7 @@ class ReportCardSerializer(serializers.ModelSerializer):
         depth = 1
 
     def get_average(self, obj):
-        return (obj.N1 + obj.N2 + obj.N3 + obj.N4) / 4
+        return (obj.result_1 + obj.result_2 + obj.result_3 + obj.result_4) / 4
 
 
 class ListReportCardSerializer(serializers.ModelSerializer):
