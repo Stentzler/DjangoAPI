@@ -80,7 +80,7 @@ class StudentSerializer(serializers.ModelSerializer):
             )
 
         list_subjects = list(grade.subjects.all())
-        ipdb.set_trace()
+
         for subject in list_subjects:
             ReportCard.objects.create(student=new_student, subject=subject)
 
