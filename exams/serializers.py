@@ -3,7 +3,7 @@ from exams.models import Exams
 from grades.models import Grade
 from custom_users.models import Student
 import ipdb
-from exams.exeptions import BadRequest
+from exams.exeptions import BadRequest,Unauthorized
 
 class ExamsSerializer(serializers.ModelSerializer):
 
@@ -21,15 +21,18 @@ class ExamsSerializer(serializers.ModelSerializer):
         quarter = validated_data.pop("quarter")
         
         students = Student.objects.filter(grade_id=grades).all()
-        """ grade=Grade.objects.filter(id=grades) """
-        
-        """ print(grade[0].subjects.all()) """
+        grade=Grade.objects.filter(id=grades) 
+        grades_subjects=list(grade[0].subjects.all())
+       
         
         if len(students) == 0:
             raise BadRequest({"message": "Class has no students registered; no exams could be created."})
         
-        for student in students:
-            exams_created = Exams.objects.create(student=student,quarter=quarter,subject=subject)
+        for subjects in grades_subjects:
+            if subject.id == subjects.id:
+                for student in students:
+                    exams_created = Exams.objects.create(student=student,quarter=quarter,subject=subject)
+                return exams_created
+            else:
+                raise Unauthorized({"message": "This subject does not belong to this grades."})
 
-
-        return exams_created
