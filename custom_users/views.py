@@ -12,6 +12,7 @@ from custom_users.serializers import (
     UpdateTeacherSerializer,
 )
 from custom_users.models import Student, Teacher
+from exams.models import Exams
 from django.shortcuts import get_object_or_404
 from report_cards.serializers import ListReportCardSerializer
 from exams.serializers import ExamsSerializer
@@ -79,3 +80,6 @@ class UpdateTeacherView(generics.UpdateAPIView):
     queryset = Teacher.objects.all()
     serializer_class = UpdateTeacherSerializer
     lookup_url_kwarg = "id"
+
+
+

@@ -29,6 +29,8 @@ class ExamsSerializer(serializers.ModelSerializer):
         students = Student.objects.filter(grade_id=grades)
         list_students = list(students)
         exams_list = []
+        #fazer verificação para retornar algo  caso a list_students venha vazio
+        #caso contrario isso retornará erro 500
         for student in list_students:
             exams_created = Exams.objects.create(
                 student=student, quarter=quarter, subject=subject
