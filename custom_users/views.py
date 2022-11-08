@@ -68,6 +68,17 @@ class TeacherCreateView(generics.CreateAPIView):
 class TeacherListView(generics.ListAPIView):
     queryset = Teacher.objects.all()
     serializer_class = ListTeacherSerializer
+    
+class TeacherListProfileView(APIView):
+    authentication_classes=[TokenAuthentication]
+    def get(self, request: Request) -> Response:
+        
+        
+        teacher = get_object_or_404(Teacher, id=request.user.id)
+        serializer = TeacherSerializer(teacher)
+        return Response(serializer.data, status.HTTP_200_OK)
+    
+        
 
 
 class DeleteRetriveTeacherView(generics.RetrieveDestroyAPIView):
