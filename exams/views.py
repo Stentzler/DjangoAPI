@@ -62,6 +62,9 @@ class UpdateExamsView(generics.UpdateAPIView):
 
 
 class DeleteRetriveExamsView(generics.RetrieveDestroyAPIView): 
+    # authentication_classes = [TokenAuthentication]
+    # permission_classes = [IsAdminUser]
+    
     queryset = Exams.objects.all()
     serializer_class = ExamsSerializer
     lookup_url_kwarg = "id"
