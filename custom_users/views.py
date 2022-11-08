@@ -18,7 +18,9 @@ from report_cards.serializers import ListReportCardSerializer
 from exams.serializers import ExamsSerializer
 import ipdb
 
-## ---------------------- Student Views ----------------------
+# ---------------------- Student Views ----------------------
+
+
 class StudentCreateView(generics.CreateAPIView):
     serializer_class = StudentSerializer
 
@@ -47,7 +49,8 @@ class GetStudentReports(APIView):
         serializer = ListReportCardSerializer(reports, many=True)
 
         return Response(serializer.data, status.HTTP_200_OK)
-        
+
+
 class GetStudentExams(APIView):
     def get(self, request: Request, student_id: str) -> Response:
         student = get_object_or_404(Student, id=student_id)
@@ -58,7 +61,17 @@ class GetStudentExams(APIView):
         return Response(serializer.data, status.HTTP_200_OK)
 
 
-## ------------------------- Teacher Views --------------------------:
+class StudentsVerifyView(APIView):
+    def get(self, request: Request, id: str) -> Response:
+        students = Student.objects.get(id=id)
+        if students.is_active == True:
+            return Response({"msg": "your email has already been verified"}, status.HTTP_400_BAD_REQUEST)
+        students.is_active = True
+        students.save()
+        return Response({"msg": "email successfully verified, your account is ready to use"}, status.HTTP_200_OK)
+
+
+# ------------------------- Teacher Views --------------------------:
 
 
 class TeacherCreateView(generics.CreateAPIView):
@@ -82,4 +95,11 @@ class UpdateTeacherView(generics.UpdateAPIView):
     lookup_url_kwarg = "id"
 
 
-
+class TeacherVerifyView(APIView):
+    def get(self, request: Request, id: str) -> Response:
+        teacher = Teacher.objects.get(id=id)
+        if teacher.is_active == True:
+            return Response({"msg": "your email has already been verified"}, status.HTTP_400_BAD_REQUEST)
+        teacher.is_active = True
+        teacher.save()
+        return Response({"msg": "email successfully verified, your account is ready to use"}, status.HTTP_200_OK)
