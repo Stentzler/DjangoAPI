@@ -14,6 +14,7 @@ class SubjectsSerializer(serializers.ModelSerializer):
             "id",
             "name",
             "teacher",
+            "total_classes"
         ]
         
 class SubjectsPatchTeacherSerializer(serializers.ModelSerializer):  
@@ -24,6 +25,7 @@ class SubjectsPatchTeacherSerializer(serializers.ModelSerializer):
             "id",
             "name",
             "teacher",
+            "total_classes"
            ]
     def update(self, instance, validated_data):
         
