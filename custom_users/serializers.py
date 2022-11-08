@@ -54,32 +54,33 @@ class StudentSerializer(serializers.ModelSerializer):
             **validated_data, address=new_address, grade=grade
         )
 
-        if new_student:
-            info = {
-                "name": new_student.first_name + " " + new_student.last_name,
-                "username": new_student.username,
-                "password": validated_data["password"],
-                "id": new_student.id
-            }
+        # if new_student:
+        #     info = {
+        #         "name": new_student.first_name + " " + new_student.last_name,
+        #         "username": new_student.username,
+        #         "password": validated_data["password"],
+        #         "id": new_student.id,
+        #     }
 
-            send_mail(
-                subject = "Student registration was successful.",
-                message = 
-                """                Hello {name}, this email is being sent as to inform you that your 
-                registration has been successful. 
+        #     send_mail(
+        #         subject="Student registration was successful.",
+        #         message="""                Hello {name}, this email is being sent as to inform you that your
+        #         registration has been successful.
 
-                Furthermore, you'll be able to login onto our system to check grades 
-                on our website at https://reinhardt-mgmt.herokuapp.com/api/login/, 
-                using the following credentials:
+        #         Furthermore, you'll be able to login onto our system to check grades
+        #         on our website at https://reinhardt-mgmt.herokuapp.com/api/login/,
+        #         using the following credentials:
 
-                    Username: {username}
-                    Password: {password}""".format(**info),
-                from_email = settings.EMAIL_HOST_USER,
-                recipient_list = [new_student.email]
-            )
+        #             Username: {username}
+        #             Password: {password}""".format(
+        #             **info
+        #         ),
+        #         from_email=settings.EMAIL_HOST_USER,
+        #         recipient_list=[new_student.email],
+        #     )
 
         list_subjects = list(grade.subjects.all())
-
+        ipdb.set_trace()
         for subject in list_subjects:
             ReportCard.objects.create(student=new_student, subject=subject)
 
@@ -128,13 +129,12 @@ class TeacherSerializer(serializers.ModelSerializer):
                 "name": new_teacher.first_name + " " + new_teacher.last_name,
                 "username": new_teacher.username,
                 "password": validated_data["password"],
-                "id": new_teacher.id
+                "id": new_teacher.id,
             }
 
             send_mail(
-                subject = "Teacher registration was successful.",
-                message = 
-                """                Hello {name}, this email is being sent as to inform you that your 
+                subject="Teacher registration was successful.",
+                message="""                Hello {name}, this email is being sent as to inform you that your 
                 registration has been successful. 
 
                 Furthermore, you'll be able to login onto our system on our website at 
@@ -142,9 +142,11 @@ class TeacherSerializer(serializers.ModelSerializer):
                 credentials:
 
                     Username: {username}
-                    Password: {password}""".format(**info),
-                from_email = settings.EMAIL_HOST_USER,
-                recipient_list = [new_teacher.email]
+                    Password: {password}""".format(
+                    **info
+                ),
+                from_email=settings.EMAIL_HOST_USER,
+                recipient_list=[new_teacher.email],
             )
 
         return new_teacher
