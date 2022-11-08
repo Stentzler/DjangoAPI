@@ -54,30 +54,30 @@ class StudentSerializer(serializers.ModelSerializer):
             **validated_data, address=new_address, grade=grade
         )
 
-        # if new_student:
-        #     info = {
-        #         "name": new_student.first_name + " " + new_student.last_name,
-        #         "username": new_student.username,
-        #         "password": validated_data["password"],
-        #         "id": new_student.id,
-        #     }
+        if new_student:
+            info = {
+                "name": new_student.first_name + " " + new_student.last_name,
+                "username": new_student.username,
+                "password": validated_data["password"],
+                "id": new_student.id,
+            }
 
-        #     send_mail(
-        #         subject="Student registration was successful.",
-        #         message="""                Hello {name}, this email is being sent as to inform you that your
-        #         registration has been successful.
+            send_mail(
+                subject="Student registration was successful.",
+                message="""                Hello {name}, this email is being sent as to inform you that your
+                registration has been successful.
 
-        #         Furthermore, you'll be able to login onto our system to check grades
-        #         on our website at https://reinhardt-mgmt.herokuapp.com/api/login/,
-        #         using the following credentials:
+                Furthermore, you'll be able to login onto our system to check grades
+                on our website at https://reinhardt-mgmt.herokuapp.com/api/login/,
+                using the following credentials:
 
-        #             Username: {username}
-        #             Password: {password}""".format(
-        #             **info
-        #         ),
-        #         from_email=settings.EMAIL_HOST_USER,
-        #         recipient_list=[new_student.email],
-        #     )
+                    Username: {username}
+                    Password: {password}""".format(
+                    **info
+                ),
+                from_email=settings.EMAIL_HOST_USER,
+                recipient_list=[new_student.email],
+            )
 
         list_subjects = list(grade.subjects.all())
         ipdb.set_trace()
