@@ -58,7 +58,8 @@ class StudentSerializer(serializers.ModelSerializer):
             info = {
                 "name": new_student.first_name + " " + new_student.last_name,
                 "username": new_student.username,
-                "password": validated_data["password"]
+                "password": validated_data["password"],
+                "id": new_student.id
             }
 
             send_mail(
@@ -126,7 +127,8 @@ class TeacherSerializer(serializers.ModelSerializer):
             info = {
                 "name": new_teacher.first_name + " " + new_teacher.last_name,
                 "username": new_teacher.username,
-                "password": validated_data["password"]
+                "password": validated_data["password"],
+                "id": new_teacher.id
             }
 
             send_mail(
