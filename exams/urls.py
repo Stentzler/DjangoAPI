@@ -6,4 +6,5 @@ urlpatterns = [
     path("exams/", views.ExamsListView.as_view()),
     path("exams/update/<str:id>/", views.UpdateExamsView.as_view()),
     path("exams/<str:id>/", views.DeleteRetriveExamsView.as_view()),
+    path("teacher/exams/", views.ListExamsByTeacher.as_view()),
 ]
