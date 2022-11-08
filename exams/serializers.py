@@ -25,17 +25,11 @@ class ExamsSerializer(serializers.ModelSerializer):
         
         """ print(grade[0].subjects.all()) """
         
-        #fazer verificação para retornar algo  caso a list_students venha vazio
-        #caso contrario isso retornará erro 500
+        if len(students) == 0:
+            raise BadRequest({"message": "Class has no students registered; no exams could be created."})
         
-        if len(students)==0 :
-            raise BadRequest({"message": "this class does not have any students yet, because of this exams cannot be created."})
-        
-        exams_list=[]
         for student in students:
             exams_created = Exams.objects.create(student=student,quarter=quarter,subject=subject)
-            exams_list.append(exams_created)
-
 
 
         return exams_created
