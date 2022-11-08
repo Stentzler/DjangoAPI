@@ -30,7 +30,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['reinhardt-mgmt.herokuapp.com', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ["reinhardt-mgmt.herokuapp.com", "localhost", "127.0.0.1"]
 # ^^^^^^ NEEDS TO BE UPDATED
 
 
@@ -59,6 +59,7 @@ THIRD_PARTY_APPS = [
     "rest_framework",
     "rest_framework.authtoken",
     "drf_spectacular",
+    "django_filters",
 ]
 
 INSTALLED_APPS = THIRD_PARTY_APPS + MY_APPS + DJANGO_APPS
@@ -186,3 +187,7 @@ if DATABASE_URL:
     DEBUG = False
 
 AUTH_USER_MODEL = "custom_users.User"
+
+REST_FRAMEWORK = {
+    "DEFAULT_FILTER_BACKENDS": ("django_filters.rest_framework.DjangoFilterBackend",),
+}
