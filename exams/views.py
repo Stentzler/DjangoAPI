@@ -1,7 +1,6 @@
 from rest_framework import generics
 from rest_framework.permissions import IsAdminUser
 from .permissions import TeacherIsAdminPermission
-from custom_users.models import Teacher
 from rest_framework.authentication import TokenAuthentication
 from django_filters import rest_framework as filters
 from .permissions import IsAdminOrOwner, IsTeacher
