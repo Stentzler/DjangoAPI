@@ -89,10 +89,9 @@ class TeacherListSubjectsView(APIView):
         serializer = TeacherSerializer(teacher)
         teacher_id=serializer.data["id"]
         teacher_subject=get_list_or_404(Subject,teacher_id=teacher_id)
-        subejct_serializer= SubjectsSerializer(teacher_subject,many=True)
-        print(teacher_subject)
+        subject_serializer= SubjectsSerializer(teacher_subject,many=True)
        
-        return Response(subejct_serializer.data, status.HTTP_200_OK)    
+        return Response(subject_serializer.data, status.HTTP_200_OK)    
     
         
 
