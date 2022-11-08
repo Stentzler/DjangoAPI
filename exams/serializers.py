@@ -1,11 +1,6 @@
 from rest_framework import serializers
 from exams.models import Exams
-from report_cards.serializers import ReportCardSerializer
-from custom_users.serializers import StudentSerializer
-from subjects.serializers import SubjectsSerializer
-import ipdb
 from custom_users.models import Student
-from subjects.models import Subject
 
 class ExamsSerializer(serializers.ModelSerializer):
 
