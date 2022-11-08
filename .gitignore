@@ -5,4 +5,4 @@ __pycache__
 *.sqlite3
 htmlcov/
 coverage.xml
-migrations
+# migrations
