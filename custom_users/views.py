@@ -12,8 +12,10 @@ from custom_users.serializers import (
     UpdateTeacherSerializer,
 )
 from custom_users.models import Student, Teacher
+from subjects.models import Subject
+from subjects.serializers import SubjectsSerializer
 from exams.models import Exams
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, get_list_or_404
 from report_cards.serializers import ListReportCardSerializer
 from exams.serializers import ExamsSerializer
 import ipdb
@@ -81,6 +83,30 @@ class TeacherCreateView(generics.CreateAPIView):
 class TeacherListView(generics.ListAPIView):
     queryset = Teacher.objects.all()
     serializer_class = ListTeacherSerializer
+    
+class TeacherListProfileView(APIView):
+    authentication_classes=[TokenAuthentication]
+    def get(self, request: Request) -> Response:
+        
+        
+        teacher = get_object_or_404(Teacher, id=request.user.id)
+        serializer = TeacherSerializer(teacher)
+        return Response(serializer.data, status.HTTP_200_OK)
+ 
+class TeacherListSubjectsView(APIView):
+    authentication_classes=[TokenAuthentication]
+    def get(self, request: Request) -> Response:
+        
+        
+        teacher = get_object_or_404(Teacher, id=request.user.id)
+        serializer = TeacherSerializer(teacher)
+        teacher_id=serializer.data["id"]
+        teacher_subject=get_list_or_404(Subject,teacher_id=teacher_id)
+        subject_serializer= SubjectsSerializer(teacher_subject,many=True)
+       
+        return Response(subject_serializer.data, status.HTTP_200_OK)    
+    
+        
 
 
 class DeleteRetriveTeacherView(generics.RetrieveDestroyAPIView):

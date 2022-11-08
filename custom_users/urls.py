@@ -23,5 +23,7 @@ urlpatterns = [
     #
     path("students/verify/<str:id>/", views.StudentsVerifyView.as_view()),
     path("teachers/verify/<str:id>/", views.TeacherVerifyView.as_view())
-
+    #
+    path("teacher/profile/",views.TeacherListProfileView.as_view()),
+    path("teacher/subjects/",views.TeacherListSubjectsView.as_view()),
 ]
