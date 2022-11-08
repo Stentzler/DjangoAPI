@@ -5,6 +5,7 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 
 
     
+
 class Exams(models.Model):
     class QuarterOptions(models.TextChoices):
         Q1="q1"
@@ -17,6 +18,8 @@ class Exams(models.Model):
     id = models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True)
     score = models.PositiveIntegerField(
         default=0, validators=[MinValueValidator(0), MaxValueValidator(100)])
+    description=models.TextField()
+    data=models.DateField()
     quarter= models.TextField(choices=QuarterOptions.choices)
     subject = models.ForeignKey(
         "subjects.Subject", related_name="exams", on_delete=models.CASCADE

@@ -7,6 +7,8 @@ from grades.models import Grade
 from subjects.models import Subject
 from report_cards.models import ReportCard
 from django.shortcuts import get_object_or_404
+from django.core.mail import send_mail
+from django.conf import settings
 import ipdb
 
 
@@ -52,6 +54,30 @@ class StudentSerializer(serializers.ModelSerializer):
             **validated_data, address=new_address, grade=grade
         )
 
+        if new_student:
+            info = {
+                "name": new_student.first_name + " " + new_student.last_name,
+                "username": new_student.username,
+                "password": validated_data["password"],
+                "id": new_student.id
+            }
+
+            send_mail(
+                subject = "Student registration was successful.",
+                message = 
+                """                Hello {name}, this email is being sent as to inform you that your 
+                registration has been successful. 
+
+                Furthermore, you'll be able to login onto our system to check grades 
+                on our website at https://reinhardt-mgmt.herokuapp.com/api/login/, 
+                using the following credentials:
+
+                    Username: {username}
+                    Password: {password}""".format(**info),
+                from_email = settings.EMAIL_HOST_USER,
+                recipient_list = [new_student.email]
+            )
+
         list_subjects = list(grade.subjects.all())
 
         for subject in list_subjects:
@@ -95,10 +121,53 @@ class TeacherSerializer(serializers.ModelSerializer):
 
         new_address = Address.objects.create(**address)
 
-        return Teacher.objects.create_user(**validated_data, address=new_address)
+        new_teacher = Teacher.objects.create_user(**validated_data, address=new_address)
+
+        if new_teacher:
+            info = {
+                "name": new_teacher.first_name + " " + new_teacher.last_name,
+                "username": new_teacher.username,
+                "password": validated_data["password"],
+                "id": new_teacher.id
+            }
+
+            send_mail(
+                subject = "Teacher registration was successful.",
+                message = 
+                """                Hello {name}, this email is being sent as to inform you that your 
+                registration has been successful. 
+
+                Furthermore, you'll be able to login onto our system on our website at 
+                https://reinhardt-mgmt.herokuapp.com/api/login/, using the following 
+                credentials:
+
+                    Username: {username}
+                    Password: {password}""".format(**info),
+                from_email = settings.EMAIL_HOST_USER,
+                recipient_list = [new_teacher.email]
+            )
+
+        return new_teacher
 
 
 class ListStudentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Student
+        fields = [
+            "address",
+            "grade",
+            "username",
+            "first_name",
+            "last_name",
+            "rg",
+            "age",
+            "email",
+            "contacts",
+            "id",
+        ]
+
+
+class ReportStudentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Student
         fields = [
