@@ -51,6 +51,7 @@ class ListReportCardSerializer(serializers.ModelSerializer):
     result_q3 = serializers.SerializerMethodField()
     result_q4 = serializers.SerializerMethodField()
     average = serializers.SerializerMethodField()
+    is_approved = serializers.SerializerMethodField()
 
     class Meta:
         model = ReportCard
@@ -120,9 +121,18 @@ class ListReportCardSerializer(serializers.ModelSerializer):
         ):
             return "Média final ainda não disponível"
 
-        return (
+        return round((
             self.get_result_q1(obj)
             + self.get_result_q2(obj)
             + self.get_result_q3(obj)
             + self.get_result_q4(obj)
-        ) / 4
+        ) / 4, 2)
+
+    def get_is_approved(self, obj):
+        if isinstance(self.get_average(obj), float | int):
+            if self.get_average(obj) >= 60:
+                return True
+            else: 
+                return False
+        else:
+            return False
