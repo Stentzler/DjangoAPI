@@ -60,7 +60,7 @@ class AddAbsenceView(generics.UpdateAPIView):
         if updated_report_card.data["attendance"] < 85:
             send_mail(
                 subject="Student attendance grade is under 85%",
-                message=f"""                Hello {student.first_name} + {student.last_name},
+                message=f"""                Hello {student.first_name} {student.last_name},
                 we would like to inform you that your current attendance grade is {updated_report_card.data['attendance']},
                 for the subject {subject.name}, at the count of {updated_report_card.data['absences']} absences 
                 as of today, out of {subject.total_classes} total classes.
