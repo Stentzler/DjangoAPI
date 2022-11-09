@@ -11,8 +11,10 @@ from rest_framework.views import APIView, Response, status
 
 
 class ListExamsByTeacher(generics.ListAPIView):
+    serializer_class = ExamsSerializer
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsTeacher]
+
 
     filter_backends = (filters.DjangoFilterBackend,)
     filterset_fields = (
@@ -21,7 +23,6 @@ class ListExamsByTeacher(generics.ListAPIView):
         "student",
     )
 
-    serializer_class = ExamsSerializer
 
     def get_queryset(self):
         teacher = self.request.user
