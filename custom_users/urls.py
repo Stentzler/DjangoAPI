@@ -3,6 +3,10 @@ from rest_framework.authtoken.views import ObtainAuthToken
 from . import views
 
 urlpatterns = [
+    path("students/profile/", views.GetStudentProfile.as_view(), name="profile"),
+    path("students/report_card/", views.GetStudentReports.as_view(), name="report"),
+    path("students/exams/", views.GetStudentExams.as_view(), name="exams"),
+    #
     path("login/", ObtainAuthToken.as_view()),
     #
     path("register/student/", views.StudentCreateView.as_view()),

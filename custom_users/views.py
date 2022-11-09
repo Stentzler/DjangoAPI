@@ -13,6 +13,7 @@ from custom_users.serializers import (
     UpdateTeacherSerializer,
 )
 from custom_users.models import Student, Teacher
+from exams.permissions import IsStudent
 from subjects.models import Subject
 from subjects.serializers import SubjectsSerializer
 from exams.models import Exams
@@ -40,6 +41,9 @@ class StudentsListView(generics.ListAPIView):
 
 
 class DeleteRetriveStudentView(generics.RetrieveDestroyAPIView):
+    # authentication_classes = [TokenAuthentication]
+    # permission_classes = [IsAdminUser]
+
     queryset = Student.objects.all()
     serializer_class = StudentSerializer
     lookup_url_kwarg = "id"
@@ -55,8 +59,8 @@ class UpdateStudentView(generics.UpdateAPIView):
 
 
 class GetStudentReports(APIView):
-    # authentication_classes = [TokenAuthentication]
-    # permission_classes = [StudentIsAdminPermission]
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [StudentIsAdminPermission]
 
     def get(self, request: Request, student_id: str) -> Response:
         student = get_object_or_404(Student, id=student_id)
@@ -68,14 +72,27 @@ class GetStudentReports(APIView):
 
 
 class GetStudentExams(APIView):
-    # authentication_classes = [TokenAuthentication]
-    # permission_classes = [StudentIsAdminPermission]
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [StudentIsAdminPermission]
 
     def get(self, request: Request, student_id: str) -> Response:
         student = get_object_or_404(Student, id=student_id)
         self.check_object_permissions(request=request, obj= student.id)
         exams = student.exams
         serializer = ExamsSerializer(exams, many=True)
+
+        return Response(serializer.data, status.HTTP_200_OK)
+
+
+class GetStudentProfile(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsStudent]
+
+    def get(self, request: Request) -> Response:
+
+        student = get_object_or_404(Student, id=request.user.id)
+
+        serializer = StudentSerializer(student)
 
         return Response(serializer.data, status.HTTP_200_OK)
 
@@ -133,6 +150,9 @@ class TeacherListSubjectsView(APIView):
 
 
 class DeleteRetriveTeacherView(generics.RetrieveDestroyAPIView):
+    # authentication_classes = [TokenAuthentication]
+    # permission_classes = [IsAdminUser]
+
     queryset = Teacher.objects.all()
     serializer_class = TeacherSerializer
     lookup_url_kwarg = "id"
