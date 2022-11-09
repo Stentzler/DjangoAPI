@@ -3,6 +3,7 @@ from rest_framework import generics
 from django.shortcuts import get_object_or_404
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAdminUser
+from .permissions import StudentIsAdminPermission
 from custom_users.serializers import (
     StudentSerializer,
     TeacherSerializer,
@@ -13,12 +14,17 @@ from custom_users.serializers import (
 )
 from custom_users.models import Student, Teacher
 from exams.permissions import IsStudent
-from django.shortcuts import get_object_or_404
+from subjects.models import Subject
+from subjects.serializers import SubjectsSerializer
+from exams.models import Exams
+from django.shortcuts import get_object_or_404, get_list_or_404
 from report_cards.serializers import ListReportCardSerializer
 from exams.serializers import ExamsSerializer
 import ipdb
 
-## ---------------------- Student Views ----------------------
+# ---------------------- Student Views ----------------------
+
+
 class StudentCreateView(generics.CreateAPIView):
     # authentication_classes = [TokenAuthentication]
     # permission_classes = [IsAdminUser]
@@ -54,10 +60,11 @@ class UpdateStudentView(generics.UpdateAPIView):
 
 class GetStudentReports(APIView):
     authentication_classes = [TokenAuthentication]
-    permission_classes = [IsStudent]
+    permission_classes = [StudentIsAdminPermission]
 
-    def get(self, request: Request) -> Response:
-        student = get_object_or_404(Student, id=request.user.id)
+    def get(self, request: Request, student_id: str) -> Response:
+        student = get_object_or_404(Student, id=student_id)
+        self.check_object_permissions(request=request, obj=student.id)
         reports = student.report_cards
         serializer = ListReportCardSerializer(reports, many=True)
 
@@ -66,12 +73,12 @@ class GetStudentReports(APIView):
 
 class GetStudentExams(APIView):
     authentication_classes = [TokenAuthentication]
-    permission_classes = [IsStudent]
+    permission_classes = [StudentIsAdminPermission]
 
-    def get(self, request: Request) -> Response:
-        student = get_object_or_404(Student, id=request.user.id)
+    def get(self, request: Request, student_id: str) -> Response:
+        student = get_object_or_404(Student, id=student_id)
+        self.check_object_permissions(request=request, obj= student.id)
         exams = student.exams
-
         serializer = ExamsSerializer(exams, many=True)
 
         return Response(serializer.data, status.HTTP_200_OK)
@@ -90,7 +97,17 @@ class GetStudentProfile(APIView):
         return Response(serializer.data, status.HTTP_200_OK)
 
 
-## ------------------------- Teacher Views --------------------------:
+class StudentsVerifyView(APIView):
+    def get(self, request: Request, id: str) -> Response:
+        students = Student.objects.get(id=id)
+        if students.is_active == True:
+            return Response({"msg": "your email has already been verified"}, status.HTTP_400_BAD_REQUEST)
+        students.is_active = True
+        students.save()
+        return Response({"msg": "email successfully verified, your account is ready to use"}, status.HTTP_200_OK)
+
+
+# ------------------------- Teacher Views --------------------------:
 
 
 class TeacherCreateView(generics.CreateAPIView):
@@ -106,6 +123,30 @@ class TeacherListView(generics.ListAPIView):
 
     queryset = Teacher.objects.all()
     serializer_class = ListTeacherSerializer
+    
+class TeacherListProfileView(APIView):
+    authentication_classes=[TokenAuthentication]
+    def get(self, request: Request) -> Response:
+        
+        
+        teacher = get_object_or_404(Teacher, id=request.user.id)
+        serializer = TeacherSerializer(teacher)
+        return Response(serializer.data, status.HTTP_200_OK)
+ 
+class TeacherListSubjectsView(APIView):
+    authentication_classes=[TokenAuthentication]
+    def get(self, request: Request) -> Response:
+        
+        
+        teacher = get_object_or_404(Teacher, id=request.user.id)
+        serializer = TeacherSerializer(teacher)
+        teacher_id=serializer.data["id"]
+        teacher_subject=get_list_or_404(Subject,teacher_id=teacher_id)
+        subject_serializer= SubjectsSerializer(teacher_subject,many=True)
+       
+        return Response(subject_serializer.data, status.HTTP_200_OK)    
+    
+        
 
 
 class DeleteRetriveTeacherView(generics.RetrieveDestroyAPIView):
@@ -124,3 +165,13 @@ class UpdateTeacherView(generics.UpdateAPIView):
     queryset = Teacher.objects.all()
     serializer_class = UpdateTeacherSerializer
     lookup_url_kwarg = "id"
+
+
+class TeacherVerifyView(APIView):
+    def get(self, request: Request, id: str) -> Response:
+        teacher = Teacher.objects.get(id=id)
+        if teacher.is_active == True:
+            return Response({"msg": "your email has already been verified"}, status.HTTP_400_BAD_REQUEST)
+        teacher.is_active = True
+        teacher.save()
+        return Response({"msg": "email successfully verified, your account is ready to use"}, status.HTTP_200_OK)
