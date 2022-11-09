@@ -251,19 +251,3 @@ class TeacherName(serializers.ModelSerializer):
         ]
 
         read_only_fields = ["id"]
-
-
-class UpdateTeacherAddressSerializer(serializers.ModelSerializer):
-    address = AddressesSerializer(many=False)
-
-    class Meta:
-        model = Teacher
-        fields = ["address"]
-
-
-class UpdateStudentAddressSerializer(serializers.ModelSerializer):
-    address = AddressesSerializer(many=False)
-
-    class Meta:
-        model = Student
-        fields = ["address"]
