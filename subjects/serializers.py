@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from custom_users.serializers import TeacherSerializer
-from subjects.exeptions import NonUpdatableKeyError
+from subjects.exceptions import NonUpdatableKeyError
 from subjects.models import Subject
 from custom_users.serializers import TeacherName
 
