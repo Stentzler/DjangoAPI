@@ -94,7 +94,7 @@ class GetStudentExams(APIView):
 
 class GetStudentProfile(APIView):
     authentication_classes = [TokenAuthentication]
-    # permission_classes = [IsStudent]
+    permission_classes = [IsStudent]
 
     def get(self, request: Request) -> Response:
 
