@@ -30,7 +30,7 @@ class UsersModelTest(TestCase):
         self.assertEqual(student.role, "STUDENT")
         self.assertEqual(student.address.id, self.address.id)
         self.assertEqual(student.grade.id, self.grade.id)
-        self.assertTrue(student.is_active)
+        self.assertFalse(student.is_active)
         self.assertFalse(student.is_superuser)
         self.assertFalse(student.is_staff)
 
@@ -52,7 +52,7 @@ class UsersModelTest(TestCase):
         self.assertEqual(teacher.cpf, teacher_base_data["attr_mapping"]["cpf"])
         self.assertEqual(teacher.role, "TEACHER")
         self.assertEqual(teacher.address.id, self.address.id)
-        self.assertTrue(teacher.is_active)
+        self.assertFalse(teacher.is_active)
         self.assertFalse(teacher.is_superuser)
         self.assertFalse(teacher.is_staff)
     
