@@ -1,9 +1,9 @@
 from rest_framework.views import APIView, Request, Response, status
 from rest_framework import generics
-from django.shortcuts import get_object_or_404
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAdminUser
 from .permissions import StudentIsAdminPermission
+from exams.permissions import IsTeacher
 from custom_users.serializers import (
     StudentSerializer,
     TeacherSerializer,
@@ -26,23 +26,23 @@ import ipdb
 
 
 class StudentCreateView(generics.CreateAPIView):
-    # authentication_classes = [TokenAuthentication]
-    # permission_classes = [IsAdminUser]
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAdminUser]
 
     serializer_class = StudentSerializer
 
 
 class StudentsListView(generics.ListAPIView):
-    # authentication_classes = [TokenAuthentication]
-    # permission_classes = [IsAdminUser]
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAdminUser]
 
     queryset = Student.objects.all()
     serializer_class = ListStudentSerializer
 
 
 class DeleteRetriveStudentView(generics.RetrieveDestroyAPIView):
-    # authentication_classes = [TokenAuthentication]
-    # permission_classes = [IsAdminUser]
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAdminUser]
 
     queryset = Student.objects.all()
     serializer_class = StudentSerializer
@@ -77,7 +77,7 @@ class GetStudentExams(APIView):
 
     def get(self, request: Request, student_id: str) -> Response:
         student = get_object_or_404(Student, id=student_id)
-        self.check_object_permissions(request=request, obj= student.id)
+        self.check_object_permissions(request=request, obj=student.id)
         exams = student.exams
         serializer = ExamsSerializer(exams, many=True)
 
@@ -101,57 +101,65 @@ class StudentsVerifyView(APIView):
     def get(self, request: Request, id: str) -> Response:
         students = Student.objects.get(id=id)
         if students.is_active == True:
-            return Response({"msg": "your email has already been verified"}, status.HTTP_400_BAD_REQUEST)
+            return Response(
+                {"msg": "your email has already been verified"},
+                status.HTTP_400_BAD_REQUEST,
+            )
         students.is_active = True
         students.save()
-        return Response({"msg": "email successfully verified, your account is ready to use"}, status.HTTP_200_OK)
+        return Response(
+            {"msg": "email successfully verified, your account is ready to use"},
+            status.HTTP_200_OK,
+        )
 
 
 # ------------------------- Teacher Views --------------------------:
 
 
 class TeacherCreateView(generics.CreateAPIView):
-    # authentication_classes = [TokenAuthentication]
-    # permission_classes = [IsAdminUser]
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAdminUser]
 
     serializer_class = TeacherSerializer
 
 
 class TeacherListView(generics.ListAPIView):
-    # authentication_classes = [TokenAuthentication]
-    # permission_classes = [IsAdminUser]
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAdminUser]
 
     queryset = Teacher.objects.all()
     serializer_class = ListTeacherSerializer
-    
+
+
 class TeacherListProfileView(APIView):
-    authentication_classes=[TokenAuthentication]
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsTeacher]
+
     def get(self, request: Request) -> Response:
-        
-        
+
         teacher = get_object_or_404(Teacher, id=request.user.id)
         serializer = TeacherSerializer(teacher)
         return Response(serializer.data, status.HTTP_200_OK)
- 
+
+
 class TeacherListSubjectsView(APIView):
-    authentication_classes=[TokenAuthentication]
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsTeacher]
+
     def get(self, request: Request) -> Response:
-        
-        
+
         teacher = get_object_or_404(Teacher, id=request.user.id)
         serializer = TeacherSerializer(teacher)
-        teacher_id=serializer.data["id"]
-        teacher_subject=get_list_or_404(Subject,teacher_id=teacher_id)
-        subject_serializer= SubjectsSerializer(teacher_subject,many=True)
-       
-        return Response(subject_serializer.data, status.HTTP_200_OK)    
-    
-        
+        teacher_id = serializer.data["id"]
+        teacher_subject = get_list_or_404(Subject, teacher_id=teacher_id)
+        subject_serializer = SubjectsSerializer(teacher_subject, many=True)
+
+        return Response(subject_serializer.data, status.HTTP_200_OK)
 
 
 class DeleteRetriveTeacherView(generics.RetrieveDestroyAPIView):
-    # authentication_classes = [TokenAuthentication]
-    # permission_classes = [IsAdminUser]
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAdminUser]
 
     queryset = Teacher.objects.all()
     serializer_class = TeacherSerializer
@@ -159,8 +167,8 @@ class DeleteRetriveTeacherView(generics.RetrieveDestroyAPIView):
 
 
 class UpdateTeacherView(generics.UpdateAPIView):
-    # authentication_classes = [TokenAuthentication]
-    # permission_classes = [IsAdminUser]
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAdminUser]
 
     queryset = Teacher.objects.all()
     serializer_class = UpdateTeacherSerializer
@@ -171,7 +179,13 @@ class TeacherVerifyView(APIView):
     def get(self, request: Request, id: str) -> Response:
         teacher = Teacher.objects.get(id=id)
         if teacher.is_active == True:
-            return Response({"msg": "your email has already been verified"}, status.HTTP_400_BAD_REQUEST)
+            return Response(
+                {"msg": "your email has already been verified"},
+                status.HTTP_400_BAD_REQUEST,
+            )
         teacher.is_active = True
         teacher.save()
-        return Response({"msg": "email successfully verified, your account is ready to use"}, status.HTTP_200_OK)
+        return Response(
+            {"msg": "email successfully verified, your account is ready to use"},
+            status.HTTP_200_OK,
+        )
