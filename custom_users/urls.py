@@ -21,8 +21,8 @@ urlpatterns = [
     path("students/update/<str:id>/", views.UpdateStudentView.as_view()),
     path("teachers/update/<str:id>/", views.UpdateTeacherView.as_view()),
     #
-    path("students/report_card/<str:student_id>/", views.GetStudentReports.as_view()),
-    path("students/exams/<str:student_id>/", views.GetStudentExams.as_view()),
+    path("students/report_card/", views.GetStudentReports.as_view()),
+    path("students/exams/", views.GetStudentExams.as_view()),
     #
     path("students/verify/<str:id>/", views.StudentsVerifyView.as_view()),
     path("teachers/verify/<str:id>/", views.TeacherVerifyView.as_view()),

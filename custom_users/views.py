@@ -60,10 +60,10 @@ class UpdateStudentView(generics.UpdateAPIView):
 
 class GetStudentReports(APIView):
     authentication_classes = [TokenAuthentication]
-    permission_classes = [StudentIsAdminPermission]
+    permission_classes = [IsStudent]
 
-    def get(self, request: Request, student_id: str) -> Response:
-        student = get_object_or_404(Student, id=student_id)
+    def get(self, request: Request) -> Response:
+        student = get_object_or_404(Student, id=request.user.id)
         self.check_object_permissions(request=request, obj=student.id)
         reports = student.report_cards
         serializer = ListReportCardSerializer(reports, many=True)
@@ -73,10 +73,10 @@ class GetStudentReports(APIView):
 
 class GetStudentExams(APIView):
     authentication_classes = [TokenAuthentication]
-    permission_classes = [StudentIsAdminPermission]
+    permission_classes = [IsStudent]
 
-    def get(self, request: Request, student_id: str) -> Response:
-        student = get_object_or_404(Student, id=student_id)
+    def get(self, request: Request) -> Response:
+        student = get_object_or_404(Student, id=request.user.id)
         self.check_object_permissions(request=request, obj=student.id)
         exams = student.exams
         serializer = ExamsSerializer(exams, many=True)
