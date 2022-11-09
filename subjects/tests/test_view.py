@@ -43,7 +43,7 @@ class SubjectViewsTest(APITestCase):
         self.assertEqual(response.status_code, 200)
         self.assertIsInstance(response.data, list)
     
-    def test_only_admin_can_get_one_suubject(self):
+    def test_only_admin_can_get_one_subject(self):
         response_not_admin= self.client.get(f'/api/subjects/{self.subject_instance.id}/')
         self.assertEqual(response_not_admin.status_code, 401)
         self.client.credentials(HTTP_AUTHORIZATION='Token '+ self.admin_token.key)
