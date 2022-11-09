@@ -31,3 +31,11 @@ class IsStudent(permissions.BasePermission):
         if request.user.is_anonymous:
             return False
         return request.user.role == "STUDENT"
+
+
+class IsTeacherOrAdmin(permissions.BasePermission):
+
+    def has_permission(self, request, view):
+        if request.user.is_anonymous:
+            return False
+        return request.user.role == "TEACHER" or request.user.is_superuser   

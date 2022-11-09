@@ -2,6 +2,7 @@ from rest_framework import serializers
 from report_cards.models import ReportCard
 from custom_users.serializers import ListStudentSerializer
 from exams.models import Exams
+from custom_users.models import Student
 
 
 class ReportCardSerializer(serializers.ModelSerializer):
@@ -30,8 +31,20 @@ class ReportCardSerializer(serializers.ModelSerializer):
         return (obj.result_q1 + obj.result_q2 + obj.result_q3 + obj.result_q4) / 4
 
 
+#####
+class ListStudentReportSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Student
+        fields = [
+            "grade",
+            "first_name",
+            "last_name",
+        ]
+
+
+####
 class ListReportCardSerializer(serializers.ModelSerializer):
-    student = ListStudentSerializer(many=False)
+    student = ListStudentReportSerializer(many=False)
 
     result_q1 = serializers.SerializerMethodField()
     result_q2 = serializers.SerializerMethodField()
@@ -100,10 +113,10 @@ class ListReportCardSerializer(serializers.ModelSerializer):
 
     def get_average(self, obj):
         if (
-            isinstance(self.get_result_q1(obj), str) or
-            isinstance(self.get_result_q2(obj), str) or
-            isinstance(self.get_result_q3(obj), str) or
-            isinstance(self.get_result_q4(obj), str)
+            isinstance(self.get_result_q1(obj), str)
+            or isinstance(self.get_result_q2(obj), str)
+            or isinstance(self.get_result_q3(obj), str)
+            or isinstance(self.get_result_q4(obj), str)
         ):
             return "Média final ainda não disponível"
 
