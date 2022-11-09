@@ -1,8 +1,6 @@
 from rest_framework import serializers
-from custom_users.serializers import TeacherSerializer
 from subjects.exceptions import NonUpdatableKeyError
 from subjects.models import Subject
-from custom_users.serializers import TeacherName
 
 
 class SubjectsSerializer(serializers.ModelSerializer):
@@ -10,31 +8,25 @@ class SubjectsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Subject
-        fields = [
-            "id",
-            "name",
-            "teacher",
-            "total_classes"
-        ]
-        
-class SubjectsPatchTeacherSerializer(serializers.ModelSerializer):  
+        fields = ["id", "name", "teacher", "total_classes"]
+
+
+class SubjectsPatchTeacherSerializer(serializers.ModelSerializer):
     id = serializers.CharField(read_only=True)
-    class Meta:    
+
+    class Meta:
         model = Subject
-        fields = [
-            "id",
-            "name",
-            "teacher",
-            "total_classes"
-           ]
+        fields = ["id", "name", "teacher", "total_classes"]
+
     def update(self, instance, validated_data):
-        
+
         for key, value in validated_data.items():
-            if key=="name":
-                raise NonUpdatableKeyError({"name": "You can not update name property in this route."})
-            
-            setattr(instance,key, value )
-       
+            if key == "name":
+                raise NonUpdatableKeyError(
+                    {"name": "You can not update name property in this route."}
+                )
+
+            setattr(instance, key, value)
+
         instance.save()
         return instance
- 

@@ -2,8 +2,7 @@ from rest_framework.views import APIView, Request, Response, status
 from rest_framework import generics
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAdminUser
-from .permissions import StudentIsAdminPermission
-from exams.permissions import IsTeacher
+from exams.permissions import IsTeacher, IsStudent
 from custom_users.serializers import (
     StudentSerializer,
     TeacherSerializer,
@@ -11,19 +10,16 @@ from custom_users.serializers import (
     ListTeacherSerializer,
     UpdateStudentSerializer,
     UpdateTeacherSerializer,
-    UpdateTeacherAddressSerializer,
-    UpdateStudentAddressSerializer,
 )
 from custom_users.models import Student, Teacher
-from exams.permissions import IsStudent
 from subjects.models import Subject
 from subjects.serializers import SubjectsSerializer
 from addresses.serializers import AddressesSerializer
 from addresses.models import Address
-from django.shortcuts import get_object_or_404, get_list_or_404
+from django.shortcuts import get_list_or_404
 from report_cards.serializers import ListReportCardSerializer
 from exams.serializers import ExamsSerializer
-import ipdb
+from utils.helpers import get_object_or_404_custom
 
 # ---------------------- Student Views ----------------------
 
@@ -66,7 +62,11 @@ class GetStudentReports(APIView):
     permission_classes = [IsStudent]
 
     def get(self, request: Request) -> Response:
-        student = get_object_or_404(Student, id=request.user.id)
+        student = get_object_or_404_custom(
+            Student,
+            "Student was not found in our database",
+            id=request.user.id,
+        )
         self.check_object_permissions(request=request, obj=student.id)
         reports = student.report_cards
         serializer = ListReportCardSerializer(reports, many=True)
@@ -79,7 +79,12 @@ class GetStudentExams(APIView):
     permission_classes = [IsStudent]
 
     def get(self, request: Request) -> Response:
-        student = get_object_or_404(Student, id=request.user.id)
+        student = get_object_or_404_custom(
+            Student,
+            "Student was not found in our database",
+            id=request.user.id,
+        )
+
         self.check_object_permissions(request=request, obj=student.id)
         exams = student.exams
         serializer = ExamsSerializer(exams, many=True)
@@ -89,11 +94,15 @@ class GetStudentExams(APIView):
 
 class GetStudentProfile(APIView):
     authentication_classes = [TokenAuthentication]
-    permission_classes = [IsStudent]
+    # permission_classes = [IsStudent]
 
     def get(self, request: Request) -> Response:
 
-        student = get_object_or_404(Student, id=request.user.id)
+        student = get_object_or_404_custom(
+            Student,
+            "Student was not found in our database",
+            id=request.user.id,
+        )
 
         serializer = StudentSerializer(student)
 
@@ -140,7 +149,7 @@ class TeacherListProfileView(APIView):
 
     def get(self, request: Request) -> Response:
 
-        teacher = get_object_or_404(Teacher, id=request.user.id)
+        teacher = get_object_or_404_custom(Teacher, id=request.user.id)
         serializer = TeacherSerializer(teacher)
         return Response(serializer.data, status.HTTP_200_OK)
 
@@ -151,7 +160,9 @@ class TeacherListSubjectsView(APIView):
 
     def get(self, request: Request) -> Response:
 
-        teacher = get_object_or_404(Teacher, id=request.user.id)
+        teacher = get_object_or_404_custom(
+            Teacher, "Teacher not found", id=request.user.id
+        )
         serializer = TeacherSerializer(teacher)
         teacher_id = serializer.data["id"]
         teacher_subject = get_list_or_404(Subject, teacher_id=teacher_id)

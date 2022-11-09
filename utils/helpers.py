@@ -1,8 +1,14 @@
-import warnings
-from django.http import Http404
+from rest_framework.exceptions import NotFound
 
 
-def get_object_or_404(klass, message, *args, **kwargs):
+def _get_queryset(klass):
+    if hasattr(klass, "_default_manager"):
+        return klass._default_manager.all()
+    return klass
+
+
+def get_object_or_404_custom(klass, msg, *args, **kwargs):
+    message = msg or "Not Found."
 
     queryset = _get_queryset(klass)
     if not hasattr(queryset, "get"):
@@ -16,4 +22,4 @@ def get_object_or_404(klass, message, *args, **kwargs):
     try:
         return queryset.get(*args, **kwargs)
     except queryset.model.DoesNotExist:
-        raise Http404(message)
+        raise NotFound(message)

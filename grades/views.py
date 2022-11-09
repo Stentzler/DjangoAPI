@@ -1,13 +1,8 @@
-from django.shortcuts import render
 from rest_framework import generics
 from .models import Grade
 from rest_framework.permissions import IsAdminUser
 from rest_framework.authentication import TokenAuthentication
 from .serializers import GradeSerializer, DetailedGradeSerializer
-from subjects.serializers import SubjectsSerializer
-
-# Create your views here.
-
 
 class GradeView(generics.CreateAPIView):
     authentication_classes = [TokenAuthentication]

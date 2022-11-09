@@ -4,12 +4,10 @@ from .models import Teacher
 from addresses.serializers import AddressesSerializer
 from addresses.models import Address
 from grades.models import Grade
-from subjects.models import Subject
 from report_cards.models import ReportCard
-from django.shortcuts import get_object_or_404
 from django.core.mail import send_mail
 from django.conf import settings
-import ipdb
+from utils.helpers import get_object_or_404_custom
 
 
 class StudentSerializer(serializers.ModelSerializer):
@@ -46,7 +44,9 @@ class StudentSerializer(serializers.ModelSerializer):
         address = validated_data.pop("address")
         grade_id = validated_data.pop("grade")
 
-        grade = get_object_or_404(Grade, id=grade_id)
+        grade = get_object_or_404_custom(
+            Grade, "The especified Grade was not found!", id=grade_id
+        )
 
         new_address = Address.objects.create(**address)
 
