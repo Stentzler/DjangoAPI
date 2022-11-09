@@ -52,6 +52,7 @@ class ListReportCardSerializer(serializers.ModelSerializer):
     result_q4 = serializers.SerializerMethodField()
     average = serializers.SerializerMethodField()
     is_approved = serializers.SerializerMethodField()
+    attendance = serializers.SerializerMethodField()
 
     class Meta:
         model = ReportCard
@@ -121,7 +122,7 @@ class ListReportCardSerializer(serializers.ModelSerializer):
         ):
             return "Média final ainda não disponível"
 
-        return round((
+        return ((
             self.get_result_q1(obj)
             + self.get_result_q2(obj)
             + self.get_result_q3(obj)
@@ -136,3 +137,16 @@ class ListReportCardSerializer(serializers.ModelSerializer):
                 return False
         else:
             return False
+
+    def get_attendance(self, obj):
+        single_class_value = round(100 / obj.subject.total_classes, 2)
+        
+        if (100 - single_class_value * obj.absences) < 0:
+            return 0
+        else:
+            return 100 - single_class_value * obj.absences
+
+
+class AbsenceReportCardSerializer(serializers.Serializer):
+    subject = serializers.CharField()
+    absences = serializers.IntegerField()
