@@ -1,6 +1,6 @@
 from rest_framework import generics
 from rest_framework.permissions import IsAdminUser
-from .permissions import TeacherIsAdminPermission,TeacherOrSuperUser
+from .permissions import TeacherIsAdminPermission, TeacherOrSuperUser
 from rest_framework.authentication import TokenAuthentication
 from django_filters import rest_framework as filters
 from .permissions import IsTeacher
@@ -9,6 +9,7 @@ from exams.models import Exams
 from subjects.models import Subject
 from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView, Response, status
+
 
 class ListExamsByTeacher(generics.ListAPIView):
     authentication_classes = [TokenAuthentication]
@@ -28,43 +29,49 @@ class ListExamsByTeacher(generics.ListAPIView):
 
         return exams_from_teacher
 
+
 class ExamsCreateView(generics.CreateAPIView):
-    # authentication_classes = [TokenAuthentication]
-    # permission_classes = [TeacherOrSuperUser]
-    
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [TeacherIsAdminPermission]
+
     serializer_class = ExamsSerializer
     """ output_serializer= ExamsSerializer(many=True) """
+
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        subject = get_object_or_404(Subject, id=request.data['subject'])
-        self.check_object_permissions(request=request, obj= subject.teacher)
+        subject = get_object_or_404(Subject, id=request.data["subject"])
+        self.check_object_permissions(request=request, obj=subject.teacher)
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
-        return Response({"message":"Exams created sucessfuly"}, status=status.HTTP_201_CREATED, headers=headers)
-    
+        return Response(
+            {"message": "Exams created sucessfuly"},
+            status=status.HTTP_201_CREATED,
+            headers=headers,
+        )
+
+
 class ExamsListView(generics.ListAPIView):
-    # authentication_classes = [TokenAuthentication]
-    # permission_classes = [IsAdminUser]
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAdminUser]
 
     queryset = Exams.objects.all()
     serializer_class = ExamsSerializer
 
 
 class UpdateExamsView(generics.UpdateAPIView):
-    # authentication_classes = [TokenAuthentication]
-    # permission_classes = [TeacherIsAdminPermission]
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [TeacherIsAdminPermission]
 
     queryset = Exams.objects.all()
     serializer_class = ExamsSerializer
-    lookup_url_kwarg = "exams_id"  
+    lookup_url_kwarg = "exams_id"
 
 
+class DeleteRetriveExamsView(generics.RetrieveDestroyAPIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [TeacherIsAdminPermission]
 
-class DeleteRetriveExamsView(generics.RetrieveDestroyAPIView): 
-    # authentication_classes = [TokenAuthentication]
-    # permission_classes = [IsAdminUser]
-    
     queryset = Exams.objects.all()
     serializer_class = ExamsSerializer
     lookup_url_kwarg = "id"
