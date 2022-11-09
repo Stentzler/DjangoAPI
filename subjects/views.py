@@ -8,8 +8,16 @@ from rest_framework import generics
 # Create your views here.
 
 
-class SubjectView(generics.ListCreateAPIView):
-    authentication_classes = [TokenAuthentication]
+class SubjectView(generics.CreateAPIView):
+    authentication_classes=[TokenAuthentication]
+    permission_classes = [IsAdminUser]
+
+    serializer_class = SubjectsSerializer
+    queryset = Subject.objects.all()
+
+
+class SubjectsView(generics.ListAPIView):
+    authentication_classes=[TokenAuthentication]
     permission_classes = [IsAdminUser]
 
     serializer_class = SubjectsSerializer
@@ -17,9 +25,17 @@ class SubjectView(generics.ListCreateAPIView):
 
 
 class SubjectsDetailsView(generics.RetrieveUpdateDestroyAPIView):
-    authentication_classes = [TokenAuthentication]
+    authentication_classes=[TokenAuthentication]
     permission_classes = [IsAdminUser]
 
     serializer_class = SubjectsSerializer
     queryset = Subject.objects.all()
     lookup_url_kwarg = "id"
+
+
+class SubjectsDetailsTeacherView(generics.UpdateAPIView):
+    authentication_classes=[TokenAuthentication]
+    permission_classes = [IsAdminUser]
+
+    queryset = Subject.objects.all()
+    serializer_class = SubjectsPatchTeacherSerializer
