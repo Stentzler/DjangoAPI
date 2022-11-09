@@ -73,9 +73,11 @@ class StudentSerializer(serializers.ModelSerializer):
                 check your email to access your account: https://localhost:8000/api/students/verify/{id}/
 
                     Username: {username}
-                    Password: {password}""".format(**info),
+                    Password: {password}""".format(
+                    **info
+                ),
                 from_email=settings.EMAIL_HOST_USER,
-                recipient_list=[new_student.email]
+                recipient_list=[new_student.email],
             )
 
         list_subjects = list(grade.subjects.all())
@@ -121,8 +123,7 @@ class TeacherSerializer(serializers.ModelSerializer):
 
         new_address = Address.objects.create(**address)
 
-        new_teacher = Teacher.objects.create_user(
-            **validated_data, address=new_address)
+        new_teacher = Teacher.objects.create_user(**validated_data, address=new_address)
 
         if new_teacher:
             info = {
@@ -143,9 +144,11 @@ class TeacherSerializer(serializers.ModelSerializer):
                     check your email to access your account: https://localhost:8000/api/teachers/verify/{id}/
 
                         Username: {username}
-                        Password: {password}""".format(**info),
+                        Password: {password}""".format(
+                    **info
+                ),
                 from_email=settings.EMAIL_HOST_USER,
-                recipient_list=[new_teacher.email]
+                recipient_list=[new_teacher.email],
             )
 
         return new_teacher
@@ -248,3 +251,19 @@ class TeacherName(serializers.ModelSerializer):
         ]
 
         read_only_fields = ["id"]
+
+
+class UpdateTeacherAddressSerializer(serializers.ModelSerializer):
+    address = AddressesSerializer(many=False)
+
+    class Meta:
+        model = Teacher
+        fields = ["address"]
+
+
+class UpdateStudentAddressSerializer(serializers.ModelSerializer):
+    address = AddressesSerializer(many=False)
+
+    class Meta:
+        model = Student
+        fields = ["address"]

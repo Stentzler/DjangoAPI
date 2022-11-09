@@ -19,7 +19,9 @@ urlpatterns = [
     path("teachers/<str:id>/", views.DeleteRetriveTeacherView.as_view()),
     #
     path("students/update/<str:id>/", views.UpdateStudentView.as_view()),
+    #
     path("teachers/update/<str:id>/", views.UpdateTeacherView.as_view()),
+    path("users/update/address/<str:address_id>/", views.UserUpdateAddress.as_view()),
     #
     path("students/report_card/", views.GetStudentReports.as_view()),
     path("students/exams/", views.GetStudentExams.as_view()),

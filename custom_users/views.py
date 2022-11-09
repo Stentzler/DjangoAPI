@@ -11,12 +11,15 @@ from custom_users.serializers import (
     ListTeacherSerializer,
     UpdateStudentSerializer,
     UpdateTeacherSerializer,
+    UpdateTeacherAddressSerializer,
+    UpdateStudentAddressSerializer,
 )
 from custom_users.models import Student, Teacher
 from exams.permissions import IsStudent
 from subjects.models import Subject
 from subjects.serializers import SubjectsSerializer
-from exams.models import Exams
+from addresses.serializers import AddressesSerializer
+from addresses.models import Address
 from django.shortcuts import get_object_or_404, get_list_or_404
 from report_cards.serializers import ListReportCardSerializer
 from exams.serializers import ExamsSerializer
@@ -189,3 +192,13 @@ class TeacherVerifyView(APIView):
             {"msg": "email successfully verified, your account is ready to use"},
             status.HTTP_200_OK,
         )
+
+
+#
+class UserUpdateAddress(generics.UpdateAPIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAdminUser]
+
+    queryset = Address.objects.all()
+    serializer_class = AddressesSerializer
+    lookup_url_kwarg = "address_id"
