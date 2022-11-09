@@ -4,7 +4,7 @@ from rest_framework.permissions import IsAdminUser
 from .permissions import TeacherIsAdminPermission, IsTeacherOrAdmin, IsTeacher
 from rest_framework.authentication import TokenAuthentication
 from django_filters import rest_framework as filters
-from exams.serializers import ExamsSerializer
+from exams.serializers import ExamsSerializer, ExamsGetSerializer
 from exams.models import Exams
 from subjects.models import Subject
 from utils.helpers import get_object_or_404_custom
@@ -21,7 +21,7 @@ class ListExamsByTeacher(generics.ListAPIView):
         "student",
     )
 
-    serializer_class = ExamsSerializer
+    serializer_class = ExamsGetSerializer
 
     def get_queryset(self):
         teacher = self.request.user
@@ -60,7 +60,7 @@ class ExamsListView(generics.ListAPIView):
     permission_classes = [IsAdminUser]
 
     queryset = Exams.objects.all()
-    serializer_class = ExamsSerializer
+    serializer_class = ExamsGetSerializer
 
 
 class UpdateExamsView(generics.UpdateAPIView):
@@ -68,7 +68,7 @@ class UpdateExamsView(generics.UpdateAPIView):
     permission_classes = [TeacherIsAdminPermission]
 
     queryset = Exams.objects.all()
-    serializer_class = ExamsSerializer
+    serializer_class = ExamsGetSerializer
     lookup_url_kwarg = "exams_id"
 
 
