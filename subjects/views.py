@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from .models import Subject
 from .serializers import SubjectsSerializer, SubjectsPatchTeacherSerializer
 from rest_framework.permissions import IsAdminUser
@@ -9,7 +8,7 @@ from rest_framework import generics
 
 
 class SubjectView(generics.CreateAPIView):
-    authentication_classes=[TokenAuthentication]
+    authentication_classes = [TokenAuthentication]
     permission_classes = [IsAdminUser]
 
     serializer_class = SubjectsSerializer
@@ -17,7 +16,7 @@ class SubjectView(generics.CreateAPIView):
 
 
 class SubjectsView(generics.ListAPIView):
-    authentication_classes=[TokenAuthentication]
+    authentication_classes = [TokenAuthentication]
     permission_classes = [IsAdminUser]
 
     serializer_class = SubjectsSerializer
@@ -25,7 +24,7 @@ class SubjectsView(generics.ListAPIView):
 
 
 class SubjectsDetailsView(generics.RetrieveUpdateDestroyAPIView):
-    authentication_classes=[TokenAuthentication]
+    authentication_classes = [TokenAuthentication]
     permission_classes = [IsAdminUser]
 
     serializer_class = SubjectsSerializer
@@ -34,7 +33,7 @@ class SubjectsDetailsView(generics.RetrieveUpdateDestroyAPIView):
 
 
 class SubjectsDetailsTeacherView(generics.UpdateAPIView):
-    authentication_classes=[TokenAuthentication]
+    authentication_classes = [TokenAuthentication]
     permission_classes = [IsAdminUser]
 
     queryset = Subject.objects.all()

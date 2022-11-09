@@ -49,5 +49,4 @@ class ExamsSerializer(serializers.ModelSerializer):
                     {"message": "This subject does not belong to this grades."}
                 )
 
-# class ListExamsSerializer(serializers.ModelSerializer):
 
