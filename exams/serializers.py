@@ -11,7 +11,7 @@ class ExamsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Exams
-        fields = ["id", "score", "description", "date", "subject", "quarter", "grades"]
+        fields = ["id", "score", "description", "date", "subject", "student", "quarter", "grades"]
         read_only_fields = ["id"]
         extra_kwargs = {"grades": {"required": True}}
 
@@ -48,3 +48,6 @@ class ExamsSerializer(serializers.ModelSerializer):
                 raise Unauthorized(
                     {"message": "This subject does not belong to this grades."}
                 )
+
+# class ListExamsSerializer(serializers.ModelSerializer):
+
