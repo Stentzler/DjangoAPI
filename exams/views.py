@@ -12,8 +12,9 @@ from rest_framework.views import APIView, Response, status
 
 
 class ListExamsByTeacher(generics.ListAPIView):
-    authentication_classes = [TokenAuthentication]
-    permission_classes = [IsTeacher]
+    # authentication_classes = [TokenAuthentication]
+    # permission_classes = [IsTeacher]
+
     filter_backends = (filters.DjangoFilterBackend,)
     filterset_fields = (
         "subject",
@@ -66,7 +67,6 @@ class UpdateExamsView(generics.UpdateAPIView):
     queryset = Exams.objects.all()
     serializer_class = ExamsSerializer
     lookup_url_kwarg = "exams_id"
-
 
 class DeleteRetriveExamsView(generics.RetrieveDestroyAPIView):
     authentication_classes = [TokenAuthentication]
