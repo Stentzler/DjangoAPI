@@ -59,23 +59,23 @@ class StudentSerializer(serializers.ModelSerializer):
                 "name": new_student.first_name + " " + new_student.last_name,
                 "username": new_student.username,
                 "password": validated_data["password"],
-                "id": new_student.id
+                "id": new_student.id,
             }
 
             send_mail(
-                subject = "Student registration was successful.",
-                message = 
-                """                Hello {name}, this email is being sent as to inform you that your 
-                registration has been successful. 
+                subject="Student registration was successful.",
+                message="""                Hello {name}, this email is being sent as to inform you that your
+                registration has been successful.
 
-                Furthermore, you'll be able to login onto our system to check grades 
-                on our website at https://reinhardt-mgmt.herokuapp.com/api/login/, 
+                Furthermore, you'll be able to login onto our system to check grades
+                on our website at https://reinhardt-mgmt.herokuapp.com/api/login/,
                 using the following credentials:
+                check your email to access your account: https://localhost:8000/api/students/verify/{id}/
 
                     Username: {username}
                     Password: {password}""".format(**info),
-                from_email = settings.EMAIL_HOST_USER,
-                recipient_list = [new_student.email]
+                from_email=settings.EMAIL_HOST_USER,
+                recipient_list=[new_student.email]
             )
 
         list_subjects = list(grade.subjects.all())
@@ -121,30 +121,31 @@ class TeacherSerializer(serializers.ModelSerializer):
 
         new_address = Address.objects.create(**address)
 
-        new_teacher = Teacher.objects.create_user(**validated_data, address=new_address)
+        new_teacher = Teacher.objects.create_user(
+            **validated_data, address=new_address)
 
         if new_teacher:
             info = {
                 "name": new_teacher.first_name + " " + new_teacher.last_name,
                 "username": new_teacher.username,
                 "password": validated_data["password"],
-                "id": new_teacher.id
+                "id": new_teacher.id,
             }
 
             send_mail(
-                subject = "Teacher registration was successful.",
-                message = 
-                """                Hello {name}, this email is being sent as to inform you that your 
-                registration has been successful. 
+                subject="Teacher registration was successful.",
+                message="""                Hello {name}, this email is being sent as to inform you that your
+                    registration has been successful.
 
-                Furthermore, you'll be able to login onto our system on our website at 
-                https://reinhardt-mgmt.herokuapp.com/api/login/, using the following 
-                credentials:
+                    Furthermore, you'll be able to login onto our system on our website at
+                    https://reinhardt-mgmt.herokuapp.com/api/login/, using the following
+                    credentials:
+                    check your email to access your account: https://localhost:8000/api/teachers/verify/{id}/
 
-                    Username: {username}
-                    Password: {password}""".format(**info),
-                from_email = settings.EMAIL_HOST_USER,
-                recipient_list = [new_teacher.email]
+                        Username: {username}
+                        Password: {password}""".format(**info),
+                from_email=settings.EMAIL_HOST_USER,
+                recipient_list=[new_teacher.email]
             )
 
         return new_teacher

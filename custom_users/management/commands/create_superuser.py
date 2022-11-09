@@ -27,7 +27,8 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         address = Address.objects.create(**self.address_data)
-        User.objects.create_superuser(**self.user_data, address=address)
+        User.objects.create_superuser(
+            **self.user_data, address=address, is_active=True)
 
         self.stdout.write(
             self.style.SUCCESS(

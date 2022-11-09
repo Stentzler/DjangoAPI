@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from custom_users.serializers import TeacherSerializer
-from subjects.exeptions import NonUpdatableKeyError
+from subjects.exceptions import NonUpdatableKeyError
 from subjects.models import Subject
 from custom_users.serializers import TeacherName
 
@@ -14,6 +14,7 @@ class SubjectsSerializer(serializers.ModelSerializer):
             "id",
             "name",
             "teacher",
+            "total_classes"
         ]
         
 class SubjectsPatchTeacherSerializer(serializers.ModelSerializer):  
@@ -24,6 +25,7 @@ class SubjectsPatchTeacherSerializer(serializers.ModelSerializer):
             "id",
             "name",
             "teacher",
+            "total_classes"
            ]
     def update(self, instance, validated_data):
         

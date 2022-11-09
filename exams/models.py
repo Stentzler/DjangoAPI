@@ -19,7 +19,7 @@ class Exams(models.Model):
     score = models.PositiveIntegerField(
         default=0, validators=[MinValueValidator(0), MaxValueValidator(100)])
     description=models.TextField()
-    data=models.DateField()
+    date=models.DateField()
     quarter= models.TextField(choices=QuarterOptions.choices)
     subject = models.ForeignKey(
         "subjects.Subject", related_name="exams", on_delete=models.CASCADE

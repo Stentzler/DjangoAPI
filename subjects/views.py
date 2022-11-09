@@ -1,28 +1,41 @@
 from django.shortcuts import render
 from .models import Subject
-from .serializers import SubjectsSerializer,SubjectsPatchTeacherSerializer
+from .serializers import SubjectsSerializer, SubjectsPatchTeacherSerializer
+from rest_framework.permissions import IsAdminUser
+from rest_framework.authentication import TokenAuthentication
 from rest_framework import generics
+
 # Create your views here.
 
 
 class SubjectView(generics.CreateAPIView):
-    # permission_classes = [IsAdminUser]
+    authentication_classes=[TokenAuthentication]
+    permission_classes = [IsAdminUser]
+
     serializer_class = SubjectsSerializer
     queryset = Subject.objects.all()
 
 
 class SubjectsView(generics.ListAPIView):
-    # permission_classes = [IsAdminUser]
+    authentication_classes=[TokenAuthentication]
+    permission_classes = [IsAdminUser]
+
     serializer_class = SubjectsSerializer
     queryset = Subject.objects.all()
 
+
 class SubjectsDetailsView(generics.RetrieveUpdateDestroyAPIView):
-    # permission_classes = [IsAdminUser]
+    authentication_classes=[TokenAuthentication]
+    permission_classes = [IsAdminUser]
+
     serializer_class = SubjectsSerializer
     queryset = Subject.objects.all()
     lookup_url_kwarg = "id"
 
+
 class SubjectsDetailsTeacherView(generics.UpdateAPIView):
-    # permission_classes = [IsAdminUser]
+    authentication_classes=[TokenAuthentication]
+    permission_classes = [IsAdminUser]
+
     queryset = Subject.objects.all()
     serializer_class = SubjectsPatchTeacherSerializer
