@@ -11,8 +11,8 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ("custom_users", "0001_initial"),
         ("subjects", "0001_initial"),
+        ("custom_users", "0001_initial"),
     ]
 
     operations = [
