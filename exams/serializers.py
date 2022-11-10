@@ -2,6 +2,7 @@ from rest_framework import serializers
 from exams.models import Exams
 from grades.models import Grade
 from custom_users.models import Student
+from custom_users.serializers import StudentName
 from exams.exeptions import BadRequest, Unauthorized
 
 
@@ -50,6 +51,8 @@ class ExamsSerializer(serializers.ModelSerializer):
                 
                 
 class ExamsGetSerializer(serializers.ModelSerializer):
+    student = StudentName
+
     class Meta:
         model = Exams
         fields = [
