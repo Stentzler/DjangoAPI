@@ -49,7 +49,7 @@ class ExamsCreateView(generics.CreateAPIView):
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
         return Response(
-            {"message": "Exams created sucessfuly"},
+            {"message": "Exams created successfully"},
             status=status.HTTP_201_CREATED,
             headers=headers,
         )
