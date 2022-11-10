@@ -5,15 +5,33 @@ from grades.models import Grade
 from addresses.models import Address
 from django.test import Client
 from exams.models import Exams
+import ipdb
 
 class ExamsViewsTest(APITestCase):
     @classmethod
     def setUpTestData(cls) -> None:
-        cls.grade= Grade.objects.create(**{
-            "class_name":"teste22", 
-            "grade":"teste", 
+        cls.address=Address.objects.create(**{
+            "zipcode": "123523",
+            "district": "Meio",
+            "state": "RS",
+            "street": "Rua",
+            "number": "13A"
         })
-        cls.teacher= Teacher.objects.create(**{
+        cls.address2=Address.objects.create(**{
+            "zipcode": "123523",
+            "district": "Meio",
+            "state": "RS",
+            "street": "Rua",
+            "number": "13A"
+        })
+        cls.address3=Address.objects.create(**{
+            "zipcode": "123523",
+            "district": "Meio",
+            "state": "RS",
+            "street": "Rua",
+            "number": "13A"
+        })
+        cls.teacher= Teacher.objects.create_user(**{
             "username": "teacher",
             "cpf": "999.999.999-99",
             "rg": "999-999-999",
@@ -23,16 +41,15 @@ class ExamsViewsTest(APITestCase):
             "contacts": "Dona Angela",
             "email":"student@mail.com",
             "password": "1234",
-            "address":{
-                "zipcode": "123523",
-                "district": "Meio",
-                "state": "RS",
-                "street": "Rua",
-                "number": "13A"
-	        },
-            "grade":cls.grade
+            "address":cls.address,
         })
-        cls.student= Student.objects.create(**{
+        cls.subject= Subject.objects.create(**{"name":"materia1", "total_classes":20, "teacher":cls.teacher})
+        cls.grade= Grade.objects.create(**{
+            "class_name":"teste22", 
+            "grade":"teste",
+        })
+        cls.grade.subjects.set([cls.subject.id])
+        cls.student= Student.objects.create_user(**{
             "username": "student",
             "rg": "999-999-999",
             "first_name": "Stu",
@@ -41,13 +58,7 @@ class ExamsViewsTest(APITestCase):
             "contacts": "Dona Angela",
             "email":"student@mail.com",
             "password": "1234",
-            "address":{
-                "zipcode": "123523",
-                "district": "Meio",
-                "state": "RS",
-                "street": "Rua",
-                "number": "13A"
-	        },
+            "address":cls.address2,
             "grade":cls.grade
         })
         cls.exam_data={
@@ -55,13 +66,14 @@ class ExamsViewsTest(APITestCase):
             "quarter": "q4",
             "grades": cls.grade.id,
             "description": "Epa",
-            "data": "2022-10-10"
+            "date": "2022-10-10"
         }
-        cls.student.is_active=True;
-        cls.subject= Subject.objects.create(**{"name":"materia1", "total_classes":20, "teacher":cls.teacher})
-        cls.admin = User.objects.create_superuser(username="admin", password="12345", age=18, address=cls.address, is_active=True )
+    
+        cls.student.is_active=True
+        cls.admin = User.objects.create_superuser(username="admin", password="12345", age=18, address=cls.address3, is_active=True )
         c= Client()
-        cls.teacher_token= c.post("/api/login/", {"username":cls.teacher.username, "password":"1234"}).data["token"]
+        verify = c.get(f"/api/teachers/verify/{cls.teacher.id}/")
+        cls.teacher_token= c.post("/api/login/", {"username": "teacher", "password":"1234"}).data["token"]
         cls.admin_token= c.post("/api/login/", {"username":"admin", "password":"12345"}).data["token"]
 
     def test_teacher_can_create_exam(self):
@@ -83,7 +95,7 @@ class ExamsViewsTest(APITestCase):
     def test_only_admin_can_get_an_exam(self):
         self.client.credentials(HTTP_AUTHORIZATION='Token '+ self.teacher_token)
         response_create=self.client.post("/api/register/exams/", self.exam_data)
-        exam= Exams.objects.get(id=response_create.data["id"])
+        exam= Exams.objects.get(subject=self.subject, student=self.student)
         self.client.credentials(HTTP_AUTHORIZATION='')
         response_not_admin=self.client.get(f'/api/exams/{exam.id}/')
         self.assertEqual(response_not_admin.status_code, 401)
@@ -94,7 +106,7 @@ class ExamsViewsTest(APITestCase):
     def test_only_teacher_can_delete_exam(self):
         self.client.credentials(HTTP_AUTHORIZATION='Token '+ self.teacher_token)
         response_create=self.client.post("/api/register/exams/", self.exam_data)
-        exam= Exams.objects.get(id=response_create.data["id"])
+        exam= Exams.objects.get(subject=self.subject, student=self.student)
         self.client.credentials(HTTP_AUTHORIZATION='')
         response_not_admin= self.client.delete(f'/api/exams/{exam.id}/')
         self.assertEqual(response_not_admin.status_code, 401)
