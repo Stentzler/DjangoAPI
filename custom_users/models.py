@@ -22,7 +22,7 @@ class User(AbstractUser):
     age = models.PositiveIntegerField()
     contacts = models.CharField(max_length=70)
     email = models.EmailField()
-    password = models.CharField(max_length=70)
+    password = models.CharField(max_length=200)
     rg = models.CharField(max_length=20)
     is_active = models.BooleanField(default=False)
 

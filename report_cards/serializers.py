@@ -121,7 +121,7 @@ class ListReportCardSerializer(serializers.ModelSerializer):
         ):
             return "Média final ainda não disponível"
 
-        return (
+        return round(
             (
                 self.get_result_q1(obj)
                 + self.get_result_q2(obj)

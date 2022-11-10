@@ -18,7 +18,7 @@ from addresses.serializers import AddressesSerializer
 from addresses.models import Address
 from django.shortcuts import get_list_or_404
 from report_cards.serializers import ListReportCardSerializer
-from exams.serializers import ExamsSerializer
+from exams.serializers import ExamsGetSerializer
 from utils.helpers import get_object_or_404_custom
 
 # ---------------------- Student Views ----------------------
@@ -87,7 +87,7 @@ class GetStudentExams(APIView):
 
         self.check_object_permissions(request=request, obj=student.id)
         exams = student.exams
-        serializer = ExamsSerializer(exams, many=True)
+        serializer = ExamsGetSerializer(exams, many=True)
 
         return Response(serializer.data, status.HTTP_200_OK)
 
