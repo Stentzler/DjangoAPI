@@ -21,7 +21,6 @@ class ExamsSerializer(serializers.ModelSerializer):
         data = validated_data.pop("date")
         grades = validated_data.pop("grades")
         quarter = validated_data.pop("quarter")
-
         students = Student.objects.filter(grade_id=grades).all()
         grade = Grade.objects.filter(id=grades)
         grades_subjects = list(grade[0].subjects.all())
@@ -48,8 +47,8 @@ class ExamsSerializer(serializers.ModelSerializer):
                 raise Unauthorized(
                     {"message": "This subject does not belong to this grades."}
                 )
-
-
+                
+                
 class ExamsGetSerializer(serializers.ModelSerializer):
     class Meta:
         model = Exams

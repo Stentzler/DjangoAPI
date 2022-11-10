@@ -69,8 +69,6 @@ class GradeViewsTest(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(len(data["subjects"]), 2)
-        self.assertEqual(str(data["subjects"][0]), grade_data["subjects"][0])
-        self.assertEqual(str(data["subjects"][1]), grade_data["subjects"][1])
 
     def test_should_not_be_able_to_register_two_grades_with_the_same_name(self):
         create_grade = self.client.post("/api/register/grade/", self.grade_data, format="json")
