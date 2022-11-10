@@ -12,6 +12,7 @@ class ReportCard(models.Model):
     is_approved = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     average = models.DecimalField(default=0, max_digits=5, decimal_places=2)
+    absences = models.PositiveIntegerField(default=0)
     attendance = models.DecimalField(default=100.00, max_digits=5, decimal_places=2)
 
     student = models.ForeignKey("custom_users.Student", on_delete=models.CASCADE, related_name="report_cards")

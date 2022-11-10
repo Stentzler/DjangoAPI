@@ -1,6 +1,5 @@
 from rest_framework import serializers
 from report_cards.models import ReportCard
-from custom_users.serializers import ListStudentSerializer
 from exams.models import Exams
 from custom_users.models import Student
 
@@ -52,6 +51,7 @@ class ListReportCardSerializer(serializers.ModelSerializer):
     result_q4 = serializers.SerializerMethodField()
     average = serializers.SerializerMethodField()
     is_approved = serializers.SerializerMethodField()
+    attendance = serializers.SerializerMethodField()
 
     class Meta:
         model = ReportCard
@@ -121,18 +121,35 @@ class ListReportCardSerializer(serializers.ModelSerializer):
         ):
             return "Média final ainda não disponível"
 
-        return round((
-            self.get_result_q1(obj)
-            + self.get_result_q2(obj)
-            + self.get_result_q3(obj)
-            + self.get_result_q4(obj)
-        ) / 4, 2)
+        return round(
+            (
+                self.get_result_q1(obj)
+                + self.get_result_q2(obj)
+                + self.get_result_q3(obj)
+                + self.get_result_q4(obj)
+            )
+            / 4,
+            2,
+        )
 
     def get_is_approved(self, obj):
         if isinstance(self.get_average(obj), float | int):
             if self.get_average(obj) >= 60:
                 return True
-            else: 
+            else:
                 return False
         else:
             return False
+
+    def get_attendance(self, obj):
+        single_class_value = round(100 / obj.subject.total_classes, 2)
+
+        if (100 - single_class_value * obj.absences) < 0:
+            return 0
+        else:
+            return 100 - single_class_value * obj.absences
+
+
+class AbsenceReportCardSerializer(serializers.Serializer):
+    subject = serializers.CharField()
+    absences = serializers.IntegerField()

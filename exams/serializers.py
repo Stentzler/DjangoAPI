@@ -48,3 +48,17 @@ class ExamsSerializer(serializers.ModelSerializer):
                 raise Unauthorized(
                     {"message": "This subject does not belong to this grades."}
                 )
+
+
+class ExamsGetSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Exams
+        fields = [
+            "id",
+            "score",
+            "description",
+            "date",
+            "subject",
+            "quarter",
+            "student"
+        ]

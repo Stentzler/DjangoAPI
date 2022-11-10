@@ -45,6 +45,7 @@ class SubjectsTestCase(TestCase):
         self.assertIsInstance(subject, Subject)
         self.assertIsInstance(subject.id, uuid.UUID)
         self.assertEqual(subject.name, self.subject_data["name"])
+        self.assertEqual(subject.total_classes, self.subject_data["total_classes"])
         self.assertEqual(subject.teacher.id, self.teacher.id)
         self.assertEqual(subject.total_classes, 40)
 
