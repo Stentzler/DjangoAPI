@@ -70,7 +70,7 @@ class StudentSerializer(serializers.ModelSerializer):
                 Furthermore, you'll be able to login onto our system to check grades
                 on our website at https://reinhardt-mgmt.herokuapp.com/api/login/,
                 using the following credentials:
-                check your email to access your account: https://localhost:8000/api/students/verify/{id}/
+                check your email to access your account: https://reinhardt-mgmt.herokuapp.com/api/students/verify/{id}/
 
                     Username: {username}
                     Password: {password}""".format(
@@ -141,7 +141,7 @@ class TeacherSerializer(serializers.ModelSerializer):
                     Furthermore, you'll be able to login onto our system on our website at
                     https://reinhardt-mgmt.herokuapp.com/api/login/, using the following
                     credentials:
-                    check your email to access your account: https://localhost:8000/api/teachers/verify/{id}/
+                    check your email to access your account: https://reinhardt-mgmt.herokuapp.com/api/teachers/verify/{id}/
 
                         Username: {username}
                         Password: {password}""".format(

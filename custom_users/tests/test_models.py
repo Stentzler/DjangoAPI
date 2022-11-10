@@ -84,7 +84,7 @@ class UsersModelTest(TestCase):
     def test_user_password_max_length(self):
         max_length = self.base_user._meta.get_field('password').max_length
 
-        self.assertEqual(max_length, 70)
+        self.assertEqual(max_length, 200)
 
     def test_user_rg_max_length(self):
         max_length = self.base_user._meta.get_field('rg').max_length
