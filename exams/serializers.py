@@ -2,6 +2,7 @@ from rest_framework import serializers
 from exams.models import Exams
 from grades.models import Grade
 from custom_users.models import Student
+from custom_users.serializers import StudentName
 from exams.exeptions import BadRequest, Unauthorized
 
 
@@ -43,13 +44,15 @@ class ExamsSerializer(serializers.ModelSerializer):
                         date=data,
                     )
                 return exams_created
-            else:
-                raise Unauthorized(
-                    {"message": "This subject does not belong to this grades."}
-                )
+                
+        raise Unauthorized(
+            {"message": "This subject does not belong to this grades."}
+        )
                 
                 
 class ExamsGetSerializer(serializers.ModelSerializer):
+    student = StudentName
+
     class Meta:
         model = Exams
         fields = [

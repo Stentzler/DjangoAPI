@@ -251,3 +251,13 @@ class TeacherName(serializers.ModelSerializer):
         ]
 
         read_only_fields = ["id"]
+
+class StudentName(serializers.ModelSerializer):
+    class Meta:
+        model = Student
+        fields = [
+            "grade",
+            "first_name",
+            "last_name",
+            "id",
+        ]

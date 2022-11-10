@@ -5,7 +5,6 @@ from grades.models import Grade
 from addresses.models import Address
 from django.test import Client
 from exams.models import Exams
-import ipdb
 
 class ExamsViewsTest(APITestCase):
     @classmethod
