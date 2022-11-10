@@ -11,7 +11,8 @@ class SubjectsTestCase(TestCase):
     @classmethod
     def setUpTestData(cls):
       cls.subject_data = {
-        "name": "testSubject"
+        "name": "testSubject",
+        "total_classes":20
       }
 
       cls.teacher_data = {

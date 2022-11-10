@@ -149,7 +149,7 @@ class TeacherListProfileView(APIView):
 
     def get(self, request: Request) -> Response:
 
-        teacher = get_object_or_404_custom(Teacher, id=request.user.id)
+        teacher = get_object_or_404_custom(Teacher, id=request.user.id, msg="Teacher not Found")
         serializer = TeacherSerializer(teacher)
         return Response(serializer.data, status.HTTP_200_OK)
 
