@@ -43,10 +43,10 @@ class ExamsSerializer(serializers.ModelSerializer):
                         date=data,
                     )
                 return exams_created
-            else:
-                raise Unauthorized(
-                    {"message": "This subject does not belong to this grades."}
-                )
+        
+        raise Unauthorized(
+            {"message": "This subject does not belong to this grades."}
+        )
                 
                 
 class ExamsGetSerializer(serializers.ModelSerializer):
