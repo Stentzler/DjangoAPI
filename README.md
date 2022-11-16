@@ -1,6 +1,6 @@
 # School API
 
-- ENDPOINTS: http://127.0.0.1:8000/schema/swagger-ui/
+- ENDPOINTS: https://reinhardt-mgmt.herokuapp.com/schema/swagger-ui/
 
 - Está API foi criada com a linguagem python e o framework DJANGO.
 
