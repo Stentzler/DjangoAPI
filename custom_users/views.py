@@ -19,6 +19,7 @@ from addresses.models import Address
 from django.shortcuts import get_list_or_404
 from report_cards.serializers import ListReportCardSerializer
 from exams.serializers import ExamsGetSerializer
+from exams.models import Exams
 from utils.helpers import get_object_or_404_custom
 
 # ---------------------- Student Views ----------------------
@@ -79,7 +80,7 @@ class GetStudentReports(APIView):
 class GetStudentExams(APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsStudent]
-    serialzier_class = ExamsSerializer
+    serialzier_class = ExamsGetSerializer
     queryset = Exams.objects.all()
 
     def get(self, request: Request) -> Response:
