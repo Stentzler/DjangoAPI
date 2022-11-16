@@ -60,6 +60,8 @@ class UpdateStudentView(generics.UpdateAPIView):
 class GetStudentReports(APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsStudent]
+    serializer_class = ListReportCardSerializer
+    queryset = Student.objects.all()
 
     def get(self, request: Request) -> Response:
         student = get_object_or_404_custom(
@@ -77,6 +79,8 @@ class GetStudentReports(APIView):
 class GetStudentExams(APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsStudent]
+    serialzier_class = ExamsSerializer
+    queryset = Exams.objects.all()
 
     def get(self, request: Request) -> Response:
         student = get_object_or_404_custom(
@@ -95,6 +99,8 @@ class GetStudentExams(APIView):
 class GetStudentProfile(APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsStudent]
+    serializer_class = StudentSerializer
+    queryset = Student.objects.all()
 
     def get(self, request: Request) -> Response:
 
@@ -110,6 +116,9 @@ class GetStudentProfile(APIView):
 
 
 class StudentsVerifyView(APIView):
+    serializer_class = ''
+    queryset = Student.objects.all()
+
     def get(self, request: Request, id: str) -> Response:
         students = Student.objects.get(id=id)
         if students.is_active == True:
@@ -146,6 +155,8 @@ class TeacherListView(generics.ListAPIView):
 class TeacherListProfileView(APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsTeacher]
+    serializer_class = TeacherSerializer
+    queryset = Teacher.objects.all()
 
     def get(self, request: Request) -> Response:
 
@@ -157,6 +168,8 @@ class TeacherListProfileView(APIView):
 class TeacherListSubjectsView(APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsTeacher]
+    serializer_class = SubjectsSerializer
+    queryset = Subject.objects.all()
 
     def get(self, request: Request) -> Response:
 
@@ -190,6 +203,8 @@ class UpdateTeacherView(generics.UpdateAPIView):
 
 
 class TeacherVerifyView(APIView):
+  
+    
     def get(self, request: Request, id: str) -> Response:
         teacher = Teacher.objects.get(id=id)
         if teacher.is_active == True:
