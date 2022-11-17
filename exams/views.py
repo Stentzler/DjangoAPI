@@ -11,8 +11,10 @@ from utils.helpers import get_object_or_404_custom
 
 
 class ListExamsByTeacher(generics.ListAPIView):
+    serializer_class = ExamsSerializer
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsTeacher]
+
 
     filter_backends = (filters.DjangoFilterBackend,)
     filterset_fields = (
@@ -20,6 +22,7 @@ class ListExamsByTeacher(generics.ListAPIView):
         "quarter",
         "student",
     )
+
 
     serializer_class = ExamsGetSerializer
 

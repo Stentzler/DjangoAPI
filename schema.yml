@@ -1,0 +1,1605 @@
+openapi: 3.0.3
+info:
+  title: Your Project API
+  version: 1.0.0
+  description: Your project description
+paths:
+  /api/exams/:
+    get:
+      operationId: api_exams_list
+      tags:
+      - api
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Exams'
+          description: ''
+  /api/exams/{id}/:
+    get:
+      operationId: api_exams_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+      tags:
+      - api
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exams'
+          description: ''
+    delete:
+      operationId: api_exams_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+      tags:
+      - api
+      security:
+      - tokenAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/exams/teacher/{exams_id}/:
+    put:
+      operationId: api_exams_teacher_update
+      parameters:
+      - in: path
+        name: exams_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Exams'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Exams'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Exams'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exams'
+          description: ''
+    patch:
+      operationId: api_exams_teacher_partial_update
+      parameters:
+      - in: path
+        name: exams_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedExams'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedExams'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedExams'
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exams'
+          description: ''
+  /api/grades/:
+    get:
+      operationId: api_grades_list
+      tags:
+      - api
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Grade'
+          description: ''
+  /api/grades/{id}/:
+    get:
+      operationId: api_grades_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+      tags:
+      - api
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Grade'
+          description: ''
+    put:
+      operationId: api_grades_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Grade'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Grade'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Grade'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Grade'
+          description: ''
+    patch:
+      operationId: api_grades_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedGrade'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedGrade'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedGrade'
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Grade'
+          description: ''
+    delete:
+      operationId: api_grades_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+      tags:
+      - api
+      security:
+      - tokenAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/login/:
+    post:
+      operationId: api_login_create
+      tags:
+      - api
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/AuthToken'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/AuthToken'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthToken'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthToken'
+          description: ''
+  /api/register/exams/:
+    post:
+      operationId: api_register_exams_create
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Exams'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Exams'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Exams'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exams'
+          description: ''
+  /api/register/grade/:
+    post:
+      operationId: api_register_grade_create
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DetailedGrade'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/DetailedGrade'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/DetailedGrade'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DetailedGrade'
+          description: ''
+  /api/register/student/:
+    post:
+      operationId: api_register_student_create
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Student'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Student'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Student'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Student'
+          description: ''
+  /api/register/subject/:
+    post:
+      operationId: api_register_subject_create
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Subjects'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Subjects'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Subjects'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Subjects'
+          description: ''
+  /api/register/teacher/:
+    post:
+      operationId: api_register_teacher_create
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Teacher'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Teacher'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Teacher'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Teacher'
+          description: ''
+  /api/students/:
+    get:
+      operationId: api_students_list
+      tags:
+      - api
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ListStudent'
+          description: ''
+  /api/students/{id}/:
+    get:
+      operationId: api_students_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+      tags:
+      - api
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Student'
+          description: ''
+    delete:
+      operationId: api_students_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+      tags:
+      - api
+      security:
+      - tokenAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/students/exams/:
+    get:
+      operationId: api_students_exams_retrieve
+      tags:
+      - api
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/students/profile/:
+    get:
+      operationId: api_students_profile_retrieve
+      tags:
+      - api
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Student'
+          description: ''
+  /api/students/report_card/:
+    get:
+      operationId: api_students_report_card_retrieve
+      tags:
+      - api
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListReportCard'
+          description: ''
+  /api/students/update/{id}/:
+    put:
+      operationId: api_students_update_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateStudent'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UpdateStudent'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UpdateStudent'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateStudent'
+          description: ''
+    patch:
+      operationId: api_students_update_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedUpdateStudent'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedUpdateStudent'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedUpdateStudent'
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateStudent'
+          description: ''
+  /api/students/verify/{id}/:
+    get:
+      operationId: api_students_verify_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: {}
+                description: Unspecified response body
+          description: ''
+  /api/subjects/:
+    get:
+      operationId: api_subjects_list
+      tags:
+      - api
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Subjects'
+          description: ''
+  /api/subjects/{id}/:
+    get:
+      operationId: api_subjects_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+      tags:
+      - api
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Subjects'
+          description: ''
+    put:
+      operationId: api_subjects_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Subjects'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Subjects'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Subjects'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Subjects'
+          description: ''
+    patch:
+      operationId: api_subjects_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedSubjects'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedSubjects'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedSubjects'
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Subjects'
+          description: ''
+    delete:
+      operationId: api_subjects_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+      tags:
+      - api
+      security:
+      - tokenAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/subjects/teacher/{id}/:
+    put:
+      operationId: api_subjects_teacher_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this subject.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SubjectsPatchTeacher'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SubjectsPatchTeacher'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/SubjectsPatchTeacher'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubjectsPatchTeacher'
+          description: ''
+    patch:
+      operationId: api_subjects_teacher_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this subject.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedSubjectsPatchTeacher'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedSubjectsPatchTeacher'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedSubjectsPatchTeacher'
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubjectsPatchTeacher'
+          description: ''
+  /api/teacher/exams/:
+    get:
+      operationId: api_teacher_exams_list
+      tags:
+      - api
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Exams'
+          description: ''
+  /api/teacher/profile/:
+    get:
+      operationId: api_teacher_profile_retrieve
+      tags:
+      - api
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Teacher'
+          description: ''
+  /api/teacher/subjects/:
+    get:
+      operationId: api_teacher_subjects_retrieve
+      tags:
+      - api
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Subjects'
+          description: ''
+  /api/teachers/:
+    get:
+      operationId: api_teachers_list
+      tags:
+      - api
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ListTeacher'
+          description: ''
+  /api/teachers/{id}/:
+    get:
+      operationId: api_teachers_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+      tags:
+      - api
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Teacher'
+          description: ''
+    delete:
+      operationId: api_teachers_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+      tags:
+      - api
+      security:
+      - tokenAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/teachers/update/{id}/:
+    put:
+      operationId: api_teachers_update_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateTeacher'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UpdateTeacher'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UpdateTeacher'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateTeacher'
+          description: ''
+    patch:
+      operationId: api_teachers_update_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedUpdateTeacher'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedUpdateTeacher'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedUpdateTeacher'
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateTeacher'
+          description: ''
+  /api/teachers/verify/{id}/:
+    get:
+      operationId: api_teachers_verify_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+components:
+  schemas:
+    Addresses:
+      type: object
+      properties:
+        id:
+          type: string
+          readOnly: true
+        zipcode:
+          type: string
+          maxLength: 8
+        district:
+          type: string
+          maxLength: 50
+        state:
+          type: string
+          maxLength: 100
+        street:
+          type: string
+          maxLength: 200
+        number:
+          type: string
+          maxLength: 10
+      required:
+      - district
+      - id
+      - number
+      - state
+      - street
+      - zipcode
+    AuthToken:
+      type: object
+      properties:
+        username:
+          type: string
+          writeOnly: true
+        password:
+          type: string
+          writeOnly: true
+        token:
+          type: string
+          readOnly: true
+      required:
+      - password
+      - token
+      - username
+    DetailedGrade:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        period:
+          $ref: '#/components/schemas/PeriodEnum'
+        class_name:
+          type: string
+          maxLength: 30
+        grade:
+          type: string
+          maxLength: 30
+        subjects:
+          type: array
+          items:
+            type: string
+            format: uuid
+      required:
+      - class_name
+      - grade
+      - id
+      - subjects
+    Exams:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        score:
+          type: integer
+          maximum: 100
+          minimum: 0
+        description:
+          type: string
+        date:
+          type: string
+          format: date
+        subject:
+          type: string
+          format: uuid
+        quarter:
+          $ref: '#/components/schemas/QuarterEnum'
+        grades:
+          type: string
+          format: uuid
+          writeOnly: true
+      required:
+      - date
+      - description
+      - grades
+      - id
+      - quarter
+      - subject
+    Grade:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        period:
+          $ref: '#/components/schemas/PeriodEnum'
+        class_name:
+          type: string
+          maxLength: 30
+        grade:
+          type: string
+          maxLength: 30
+        subjects:
+          type: array
+          items:
+            type: string
+            format: uuid
+      required:
+      - class_name
+      - grade
+      - id
+      - subjects
+    ListReportCard:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        student:
+          $ref: '#/components/schemas/ListStudentReport'
+        result_q1:
+          type: string
+          readOnly: true
+        result_q2:
+          type: string
+          readOnly: true
+        result_q3:
+          type: string
+          readOnly: true
+        result_q4:
+          type: string
+          readOnly: true
+        average:
+          type: string
+          readOnly: true
+        is_approved:
+          type: string
+          readOnly: true
+        is_active:
+          type: boolean
+        attendance:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,3}(?:\.\d{0,2})?$
+        subject:
+          allOf:
+          - $ref: '#/components/schemas/Nested'
+          readOnly: true
+      required:
+      - average
+      - id
+      - is_approved
+      - result_q1
+      - result_q2
+      - result_q3
+      - result_q4
+      - student
+      - subject
+    ListStudent:
+      type: object
+      properties:
+        address:
+          type: string
+          format: uuid
+        grade:
+          type: string
+          format: uuid
+        username:
+          type: string
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+        first_name:
+          type: string
+          maxLength: 150
+        last_name:
+          type: string
+          maxLength: 150
+        rg:
+          type: string
+          maxLength: 20
+        age:
+          type: integer
+        email:
+          type: string
+          format: email
+          maxLength: 254
+        contacts:
+          type: string
+          maxLength: 70
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+      required:
+      - address
+      - age
+      - contacts
+      - email
+      - grade
+      - id
+      - rg
+      - username
+    ListStudentReport:
+      type: object
+      properties:
+        grade:
+          type: string
+          format: uuid
+        first_name:
+          type: string
+          maxLength: 150
+        last_name:
+          type: string
+          maxLength: 150
+      required:
+      - grade
+    ListTeacher:
+      type: object
+      properties:
+        address:
+          type: string
+          format: uuid
+        cpf:
+          type: string
+          maxLength: 30
+        username:
+          type: string
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+        first_name:
+          type: string
+          maxLength: 150
+        last_name:
+          type: string
+          maxLength: 150
+        rg:
+          type: string
+          maxLength: 20
+        age:
+          type: integer
+        email:
+          type: string
+          format: email
+          maxLength: 254
+        contacts:
+          type: string
+          maxLength: 70
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+      required:
+      - address
+      - age
+      - contacts
+      - cpf
+      - email
+      - id
+      - rg
+      - username
+    Nested:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        name:
+          type: string
+          maxLength: 50
+        total_classes:
+          type: integer
+        teacher:
+          type: string
+          format: uuid
+          nullable: true
+      required:
+      - id
+      - name
+      - total_classes
+    PatchedExams:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        score:
+          type: integer
+          maximum: 100
+          minimum: 0
+        description:
+          type: string
+        date:
+          type: string
+          format: date
+        subject:
+          type: string
+          format: uuid
+        quarter:
+          $ref: '#/components/schemas/QuarterEnum'
+        grades:
+          type: string
+          format: uuid
+          writeOnly: true
+    PatchedGrade:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        period:
+          $ref: '#/components/schemas/PeriodEnum'
+        class_name:
+          type: string
+          maxLength: 30
+        grade:
+          type: string
+          maxLength: 30
+        subjects:
+          type: array
+          items:
+            type: string
+            format: uuid
+    PatchedSubjects:
+      type: object
+      properties:
+        id:
+          type: string
+          readOnly: true
+        name:
+          type: string
+          maxLength: 50
+        teacher:
+          type: string
+          format: uuid
+          nullable: true
+        total_classes:
+          type: integer
+    PatchedSubjectsPatchTeacher:
+      type: object
+      properties:
+        id:
+          type: string
+          readOnly: true
+        name:
+          type: string
+          maxLength: 50
+        teacher:
+          type: string
+          format: uuid
+          nullable: true
+        total_classes:
+          type: integer
+    PatchedUpdateStudent:
+      type: object
+      properties:
+        username:
+          type: string
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+        first_name:
+          type: string
+          maxLength: 150
+        last_name:
+          type: string
+          maxLength: 150
+        rg:
+          type: string
+          maxLength: 20
+        age:
+          type: integer
+        email:
+          type: string
+          format: email
+          maxLength: 254
+        contacts:
+          type: string
+          maxLength: 70
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+    PatchedUpdateTeacher:
+      type: object
+      properties:
+        username:
+          type: string
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+        first_name:
+          type: string
+          maxLength: 150
+        last_name:
+          type: string
+          maxLength: 150
+        rg:
+          type: string
+          maxLength: 20
+        cpf:
+          type: string
+          maxLength: 30
+        age:
+          type: integer
+        email:
+          type: string
+          format: email
+          maxLength: 254
+        contacts:
+          type: string
+          maxLength: 70
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+    PeriodEnum:
+      enum:
+      - MANHÃ
+      - TARDE
+      - NOITE
+      type: string
+    QuarterEnum:
+      enum:
+      - q1
+      - q2
+      - q3
+      - q4
+      type: string
+    Student:
+      type: object
+      properties:
+        address:
+          $ref: '#/components/schemas/Addresses'
+        grade:
+          type: string
+          format: uuid
+        username:
+          type: string
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+        first_name:
+          type: string
+          maxLength: 150
+        last_name:
+          type: string
+          maxLength: 150
+        rg:
+          type: string
+          maxLength: 20
+        age:
+          type: integer
+        email:
+          type: string
+          format: email
+          maxLength: 254
+        password:
+          type: string
+          writeOnly: true
+          maxLength: 70
+        contacts:
+          type: string
+          maxLength: 70
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+      required:
+      - address
+      - age
+      - contacts
+      - email
+      - first_name
+      - grade
+      - id
+      - last_name
+      - password
+      - rg
+      - username
+    Subjects:
+      type: object
+      properties:
+        id:
+          type: string
+          readOnly: true
+        name:
+          type: string
+          maxLength: 50
+        teacher:
+          type: string
+          format: uuid
+          nullable: true
+        total_classes:
+          type: integer
+      required:
+      - id
+      - name
+      - total_classes
+    SubjectsPatchTeacher:
+      type: object
+      properties:
+        id:
+          type: string
+          readOnly: true
+        name:
+          type: string
+          maxLength: 50
+        teacher:
+          type: string
+          format: uuid
+          nullable: true
+        total_classes:
+          type: integer
+      required:
+      - id
+      - name
+      - total_classes
+    Teacher:
+      type: object
+      properties:
+        address:
+          $ref: '#/components/schemas/Addresses'
+        cpf:
+          type: string
+          maxLength: 30
+        username:
+          type: string
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+        first_name:
+          type: string
+          maxLength: 150
+        last_name:
+          type: string
+          maxLength: 150
+        rg:
+          type: string
+          maxLength: 20
+        age:
+          type: integer
+        email:
+          type: string
+          format: email
+          maxLength: 254
+        password:
+          type: string
+          writeOnly: true
+          maxLength: 70
+        contacts:
+          type: string
+          maxLength: 70
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+      required:
+      - address
+      - age
+      - contacts
+      - cpf
+      - email
+      - first_name
+      - id
+      - last_name
+      - password
+      - rg
+      - username
+    UpdateStudent:
+      type: object
+      properties:
+        username:
+          type: string
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+        first_name:
+          type: string
+          maxLength: 150
+        last_name:
+          type: string
+          maxLength: 150
+        rg:
+          type: string
+          maxLength: 20
+        age:
+          type: integer
+        email:
+          type: string
+          format: email
+          maxLength: 254
+        contacts:
+          type: string
+          maxLength: 70
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+      required:
+      - age
+      - contacts
+      - email
+      - id
+      - rg
+      - username
+    UpdateTeacher:
+      type: object
+      properties:
+        username:
+          type: string
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+        first_name:
+          type: string
+          maxLength: 150
+        last_name:
+          type: string
+          maxLength: 150
+        rg:
+          type: string
+          maxLength: 20
+        cpf:
+          type: string
+          maxLength: 30
+        age:
+          type: integer
+        email:
+          type: string
+          format: email
+          maxLength: 254
+        contacts:
+          type: string
+          maxLength: 70
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+      required:
+      - age
+      - contacts
+      - cpf
+      - email
+      - id
+      - rg
+      - username
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: sessionid
+    tokenAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: Token-based authentication with required prefix "Token"
